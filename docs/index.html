@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hiring-closures — when job postings disappear</title>
+<meta name="description" content="A daily record of when job postings stop being returned by company careers APIs. 1,574 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour sample under CC0.">
+<link rel="canonical" href="https://moonie0201.github.io/hiring-closures/">
+<style>
+  :root{
+    --bg:#ffffff; --fg:#161616; --muted:#5b5b5b; --line:#dcdcdc;
+    --code-bg:#f5f5f4; --accent:#0b4f9e; --warn-bg:#fbf7ec; --warn-line:#d9c48a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121212; --fg:#e8e8e8; --muted:#a1a1a1; --line:#333333;
+      --code-bg:#1c1c1c; --accent:#7db3f0; --warn-bg:#211d13; --warn-line:#5c4d26;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0 auto; padding:2rem 1.25rem 5rem; max-width:52rem;
+    background:var(--bg); color:var(--fg);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  h1{font-size:1.9rem; line-height:1.2; margin:0 0 .4rem}
+  h2{font-size:1.25rem; margin:2.75rem 0 .75rem; padding-top:1.25rem; border-top:1px solid var(--line)}
+  h3{font-size:1rem; margin:1.75rem 0 .4rem}
+  p,ul,ol{margin:0 0 1rem}
+  ul,ol{padding-left:1.3rem}
+  li{margin:.3rem 0}
+  a{color:var(--accent)}
+  .lede{font-size:1.05rem; color:var(--fg); margin-bottom:1.25rem}
+  .muted{color:var(--muted)}
+  .small{font-size:.875rem}
+  code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  code{background:var(--code-bg); padding:.1em .35em; border-radius:3px; font-size:.875em}
+  pre{background:var(--code-bg); padding:.85rem 1rem; border-radius:5px; overflow-x:auto; font-size:.8125rem; line-height:1.5; margin:0 0 1rem}
+  pre code{background:none; padding:0; font-size:1em}
+  .tw{overflow-x:auto; margin:0 0 1.25rem}
+  table{border-collapse:collapse; width:100%; font-size:.9rem}
+  th,td{text-align:left; padding:.45rem .7rem; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-weight:600; white-space:nowrap}
+  td:first-child{white-space:nowrap}
+  .note{background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:5px; padding:1rem 1.1rem; margin:0 0 1.5rem}
+  .note p:last-child{margin-bottom:0}
+  .price{font-size:1.5rem; font-weight:600; white-space:nowrap}
+  .cta{margin:1.5rem 0 2rem}
+  .cta a{display:inline-block; margin:0 1.25rem .5rem 0; font-weight:600}
+  footer{margin-top:3.5rem; padding-top:1.25rem; border-top:1px solid var(--line); font-size:.85rem; color:var(--muted)}
+</style>
+</head>
+<body>
+
+<h1>hiring-closures</h1>
+<p class="lede"><strong>When job postings disappear.</strong> A daily record of how many
+postings each company opened, held and stopped showing, across 1,574 company boards on six
+ATS platforms. Most job-data products tell you what is open. This one tells you what
+closed.</p>
+
+<p>Collection started <strong>2026-08-26</strong>. Every day since is stored, and no earlier
+day exists anywhere. 2026-08-26 covers one of the four shards (385 boards); full-watchlist
+coverage begins <strong>2026-08-27</strong>.</p>
+
+<p class="cta">
+  <a href="https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv">Download the free 72-hour sample (CSV, CC0)</a>
+  <a href="#free">Schema</a>
+  <a href="#prices">Prices</a>
+  <a href="https://github.com/moonie0201/hiring-closures">Repository</a>
+</p>
+
+<pre><code>curl -sL https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv</code></pre>
+
+<div class="note">
+<h3 style="margin-top:0">What a <code>removed</code> record means</h3>
+<p>A <code>removed</code> record means a job posting that was returned by a company's public
+careers API on one day was no longer returned on a later day. It is <strong>not</strong> a
+statement that anyone was hired, that a role was cancelled, or that anyone lost a job.
+Postings also stop being returned for reasons we cannot observe, including reposting under a
+new ID, board migrations, and provider outages.</p>
+</div>
+
+<h2 id="free">The free file</h2>
+<p>One row per company per day, six columns, no free text, rebuilt daily.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Column</th><th>Type</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>d</code></td><td><code>YYYY-MM-DD</code></td><td>the observation date (our clock, UTC)</td></tr>
+<tr><td><code>provider</code></td><td>enum</td><td><code>greenhouse</code>, <code>lever</code>, <code>ashby</code>, <code>recruitee</code>, <code>rippling</code></td></tr>
+<tr><td><code>company</code></td><td>string</td><td>the ATS board slug, case-sensitive, verbatim as it validated</td></tr>
+<tr><td><code>open</code></td><td>integer</td><td>postings the board returned that day</td></tr>
+<tr><td><code>added</code></td><td>integer</td><td>postings first seen that day</td></tr>
+<tr><td><code>removed</code></td><td>integer</td><td>postings returned on a previous day and not returned that day</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Real rows, as observed on 2026-08-28:</p>
+<pre><code>d,provider,company,open,added,removed
+2026-08-28,ashby,1password,63,1,3
+2026-08-28,greenhouse,anthropic,560,10,9
+2026-08-28,greenhouse,figma,160,3,2</code></pre>
+<p>Read the first as: on 2026-08-28 that board returned 63 postings; 1 was not there the day
+before; 3 that were there the day before were not returned. Nothing more.
+<a href="https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.jsonl">The
+same rows as JSONL.</a></p>
+
+<p>What the whole file looked like on 2026-08-28, its first day with a complete snapshot on
+both sides of the diff:</p>
+<div class="tw">
+<table>
+<thead><tr><th>Provider</th><th style="text-align:right">Companies</th><th style="text-align:right">Open</th><th style="text-align:right">Added</th><th style="text-align:right">Removed</th></tr></thead>
+<tbody>
+<tr><td>greenhouse</td><td style="text-align:right">364</td><td style="text-align:right">23,576</td><td style="text-align:right">1,127</td><td style="text-align:right">876</td></tr>
+<tr><td>ashby</td><td style="text-align:right">380</td><td style="text-align:right">11,905</td><td style="text-align:right">239</td><td style="text-align:right">231</td></tr>
+<tr><td>lever</td><td style="text-align:right">309</td><td style="text-align:right">13,044</td><td style="text-align:right">229</td><td style="text-align:right">244</td></tr>
+<tr><td>recruitee</td><td style="text-align:right">173</td><td style="text-align:right">3,838</td><td style="text-align:right">24</td><td style="text-align:right">51</td></tr>
+<tr><td>rippling</td><td style="text-align:right">142</td><td style="text-align:right">2,372</td><td style="text-align:right">57</td><td style="text-align:right">70</td></tr>
+<tr><td><strong>total</strong></td><td style="text-align:right"><strong>1,368</strong></td><td style="text-align:right"><strong>54,735</strong></td><td style="text-align:right"><strong>1,676</strong></td><td style="text-align:right"><strong>1,472</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="small muted">A company-day row exists only where we actually measured that board. A
+failed fetch, a stale company, a degraded provider and a suspected-empty board all write no
+row at all, so an absent date is absent — never a zero.</p>
+
+<p>Personio-hosted companies are not in the free file. Personio's Marketplace Terms of
+Service §4.2 prohibits "creating publicly available directories based on the information
+retrieved from the API". Whether that reaches a caller holding no Personio credential is
+arguable; we are not taking the argument. Personio is covered in the paid tiers, which are
+contracted deliveries and not public directories.</p>
+
+<p>To resolve a slug to a company, use the CC0 company→ATS directory:
+<a href="https://github.com/moonie0201/ats-directory">moonie0201/ats-directory</a>.</p>
+
+<h2 id="moat">Why nobody can back-fill this</h2>
+
+<h3>Posting dates are free. Do not pay for them.</h3>
+<p>One unauthenticated call returns them today:</p>
+<div class="tw">
+<table>
+<thead><tr><th>Provider</th><th>Field</th><th>Example value</th></tr></thead>
+<tbody>
+<tr><td>Greenhouse</td><td><code>first_published</code></td><td><code>2024-12-20T13:53:38-05:00</code></td></tr>
+<tr><td>Lever</td><td><code>createdAt</code></td><td>epoch milliseconds</td></tr>
+<tr><td>Ashby</td><td><code>publishedAt</code></td><td>ISO 8601</td></tr>
+</tbody>
+</table>
+</div>
+<p>Anyone can fetch a board right now and compute <code>days_open</code> for every posting
+currently on it. If that is what you need, call the API and pay nothing.</p>
+
+<h3>Closure dates are not free, and cannot be made free retroactively.</h3>
+<p>No provider exposes a "removed" field, a "closed" endpoint, or an archive of postings that
+used to exist. A posting that is gone is simply absent from the response. The only way to
+know the day it went absent is to have held a copy of the previous day's response and
+compared.</p>
+<ul>
+<li><code>removed_at</code> exists only as the difference between two snapshots taken on two
+different days.</li>
+<li>A competitor who starts collecting tomorrow gets their first closure record the day after
+tomorrow, and can never obtain one for 2026-08-26 or any day before they started.</li>
+<li>Everything derived from closures inherits the same property: closure rate, realised
+time-to-close, repost frequency, and net change.</li>
+</ul>
+<p>The dataset does not appreciate because it is large. It appreciates because it is old, and
+it gets exactly one day older per day — for us and for everyone.</p>
+
+<h2 id="prices">Prices</h2>
+<p>All prices in USD. Orders are taken by email at
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a> and invoiced on delivery.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th></th><th>Aggregate archive</th><th>Event feed</th><th>Metrics</th></tr></thead>
+<tbody>
+<tr><td><strong>Price</strong></td>
+    <td><span class="price">$49</span><br><span class="small muted">/month, or $490/year</span></td>
+    <td><span class="price">$199</span><br><span class="small muted">/month, or $1,990/year</span></td>
+    <td><span class="price">on request</span><br><span class="small muted">built to order</span></td></tr>
+<tr><td>Grain</td><td>company × day</td><td>+ job-level events</td><td>+ per-company derived metrics</td></tr>
+<tr><td>Fields</td>
+    <td><code>d, provider, company, open, added, removed</code></td>
+    <td>+ <code>job_id, ev, t, loc, dept, url, posted, days_open, changed</code></td>
+    <td>+ computed columns</td></tr>
+<tr><td>Depth</td><td>full, from 2026-08-26</td><td>full, from 2026-08-26</td><td>full, from 2026-08-26</td></tr>
+<tr><td>Availability</td><td>shipping</td><td>shipping</td><td><strong>built to order</strong> — no metric column is derived by any code today</td></tr>
+<tr><td>Providers</td><td>6, incl. Personio and Recruitee</td><td>6</td><td>6</td></tr>
+<tr><td>Delivery</td><td>daily, gzipped CSV or JSONL</td><td>daily</td><td>agreed per order</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>One-time archive export — $900.</strong> Everything in the Event feed, every day
+collected up to the delivery date, delivered once, no further updates, licensed perpetually
+for the files delivered. For a fixed dataset rather than a running feed.</p>
+
+<p><strong>The Metrics tier is priced on request and built to order.</strong> Nothing in the
+collection or export code computes these columns today; they are functions of the event feed
+and would be derived for a specific order, on an agreed scope and cadence. The columns under
+discussion, per company: closure rate (removed ÷ open, daily and trailing 30 days), median
+realised time-to-close of removed postings, repost rate, net change (added − removed), and the
+same cuts split by department and by location string. The two lower tiers are exporter output
+and ship as written.</p>
+
+<p>There are no volume discounts, no introductory rates, and no list price above these
+numbers. What is written here is what is charged.</p>
+
+<h3>Why these numbers</h3>
+<p><strong>Not compute.</strong> A full quarter-watchlist sweep bills $0.0157 and there are
+four a day, so a full month runs under <strong>$2</strong> in serverless compute; measured
+spend since collection began is <strong>$0.15</strong>. If you are pricing this against your
+own infrastructure bill, do not buy it. Build it.</p>
+<p>What the price buys is two things compute does not:</p>
+<ol>
+<li><strong>The days you did not collect.</strong> Every day of subscription is a day you do
+not have to have already spent. No amount of money buys 2026-08-26 after the fact.</li>
+<li><strong>The parts that are tedious rather than hard.</strong> Six ATS adapters, per-host
+rate limits (Rippling's documented ceiling is 100 requests per 10 minutes — 0.16 req/s), four
+correctness guards that each exist because of a real bug, about 6,200 lines of collection
+code, and an unattended daily schedule that cannot miss a day, because a missed day is a
+permanent hole.</li>
+</ol>
+
+<p>Per-row arithmetic, measured on 2026-08-28 across the five providers in the free sample —
+1,368 companies, 54,735 open postings, 1,676 added, 1,472 removed. The paid feed adds
+Personio, and daily volume varies.</p>
+<div class="tw">
+<table>
+<thead><tr><th>Tier</th><th>Volume at that day's rate</th><th>Effective unit price</th></tr></thead>
+<tbody>
+<tr><td>Aggregate archive $49/mo</td><td>1,368 rows/day ≈ 41,600/month</td><td>$0.0012 per company-day row</td></tr>
+<tr><td>Event feed $199/mo</td><td>3,148 add/remove events/day ≈ 95,800/month</td><td>$0.0021 per event</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="small">For comparison: Coresignal's Jobs API entry plan is $49 for 2,500 job credits
+($0.0196 per posting), packaged datasets from $1,000/month; TheirStack is $49 for 1,500 job
+credits, or $0.109 per company for 90 days of that company's postings; Fantastic.jobs sells a
+career-site feed from $95/month. All of them sell <em>open</em> postings. None sells the day a
+posting stopped being returned.</p>
+
+<h2 id="dont">Do not buy this if</h2>
+<ul>
+<li><strong>You want posting dates or time-open for currently open roles.</strong> Those are
+free — see above.</li>
+<li><strong>You want the job advertisement text.</strong> We do not collect, store, or sell
+it. The body of a job ad is the employer's own copyrighted work; we claim no rights in it and
+do not reproduce it.</li>
+<li><strong>You want salary data.</strong> Not collected.</li>
+<li><strong>You want to know why a posting closed.</strong> The data says a posting stopped
+being returned. Nothing more.</li>
+<li><strong>You need coverage before 2026-08-26.</strong> It does not exist.</li>
+<li><strong>You need a company we do not track.</strong> We can add a board, but its history
+starts the day we add it.</li>
+</ul>
+
+<h2 id="method">Provenance and method</h2>
+<p>Source: the public careers API each employer's own ATS publishes, unauthenticated, one
+request per board. No HTML scraping, no login, no Workday, and no undocumented internal
+endpoint except the Rippling v1 job board route noted below.</p>
+<div class="tw">
+<table>
+<thead><tr><th>Provider</th><th>Endpoint family</th><th>Rate we use</th></tr></thead>
+<tbody>
+<tr><td>Greenhouse</td><td><code>boards-api.greenhouse.io/v1/boards/{slug}/jobs</code></td><td>2 req/s</td></tr>
+<tr><td>Lever</td><td><code>api.lever.co/v0/postings/{site}</code></td><td>1 req/s (<code>robots.txt</code> <code>Crawl-delay: 1</code>)</td></tr>
+<tr><td>Ashby</td><td><code>api.ashbyhq.com/posting-api/job-board/{slug}</code></td><td>2 req/s</td></tr>
+<tr><td>Recruitee</td><td>careers-site API, one host per company</td><td>2 req/s</td></tr>
+<tr><td>Rippling</td><td>job board API — <strong>v1 endpoint, undocumented</strong>; the documented v2 API states "a Recruiting Pro subscription is required to use this API"</td><td>0.16 req/s (the documented v2 limit of 100 req / 10 min, which we honour)</td></tr>
+<tr><td>Personio</td><td>tenant career-page XML feed</td><td>2 req/s — paid tiers only</td></tr>
+</tbody>
+</table>
+</div>
+<p>Four staggered runs a day at 03:00, 03:25, 03:50 and 04:15 UTC, each covering one quarter
+of the watchlist, with descriptions off and list-only on. Today's response is diffed against
+the stored copy of the last successful response for that board. Storage is gzipped JSONL, one
+file per day per shard, pruned at 400 days.</p>
+
+<h2 id="limits">Limitations</h2>
+<p>These are in the product because removing them would mean inventing data.</p>
+<ul>
+<li><strong>2026-08-26 covers one of the four shards only</strong> — 385 of 1,574 boards.
+Full-watchlist coverage begins 2026-08-27.</li>
+<li><strong>Collection begins 2026-08-26; a day we failed to collect is missing, not
+zero.</strong> When a fetch fails, no removal is recorded and the previous state is left
+untouched; a board must return empty on two consecutive runs before any removal is emitted;
+and when more than 90% of one provider's companies return an empty board, that provider's
+results are discarded for the run. The data under-reports closures rather than inventing
+them.</li>
+<li><strong><code>posted</code> and <code>days_open</code> are lower bounds in two known
+cases.</strong> <code>posted</code> is the provider's own publication date where the provider
+returns one, and otherwise the first date we saw the posting. For any posting already open on
+2026-08-26, and for every Rippling posting — Rippling supplies a creation date only in a
+per-job detail call the snapshot does not make — <code>days_open</code> is a lower bound, not
+a measured time-to-close.</li>
+<li><strong>A board's first observed day marks every posting as <code>added</code>.</strong> The
+first time we see a board, every posting on it is new to us, so <code>added</code> equals
+<code>open</code> and <code>removed</code> is 0. That is a first sighting, not a burst of new
+postings. It applies to 2026-08-26 and 2026-08-27 for most companies. The first day with a
+complete snapshot on both sides of the diff is <strong>2026-08-28</strong>.</li>
+<li><strong>A board that returns nothing is not reported as closed.</strong> A board must come
+back empty on two consecutive runs before removals are emitted, and a company-day where the
+board went to zero is dropped from the published file rather than sold as a mass closure: a
+confirmed-empty board and a two-day outage or a board migration are the same bytes.</li>
+<li><strong>Reposts are suppressed, not resolved.</strong> Greenhouse and Lever mint a new
+posting ID on a repost, so a repost arrives as <code>removed</code> + <code>added</code>. When
+the same canonical posting is still open under a different ID, <code>days_open</code> on the
+removal is withheld rather than counted as a closure duration.</li>
+<li><strong>Coverage is the watchlist, not the labour market.</strong> 1,574 company boards
+that publish through one of six ATS platforms and had at least one posting when the watchlist
+was seeded (ashby 381, greenhouse 364, lever 309, personio 202, recruitee 174, rippling 144);
+1,570 of them answered on 2026-08-28 across all six providers, of which 1,368 are in the
+five-provider free file.</li>
+<li><strong>Recruitee's careers-site API requires an authorization token from 10 February
+2027.</strong> Coverage after that date depends on a migration to the XML offer feed that is
+already scheduled.</li>
+</ul>
+
+<h2 id="privacy">No personal data</h2>
+<p>This dataset describes companies, not people. It contains no names, no email addresses, no
+phone numbers, no recruiter or candidate fields, and no job advertisement text. Job titles and
+location strings are reproduced as the employer published them and are not scanned for
+personal names. If you believe a row identifies you as an individual, write to
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a> and it will be removed within
+7 days and blocked from future rebuilds.</p>
+<p>The free file carries no free text at all — no titles, no locations — which closes that
+channel entirely for the public artefact.</p>
+
+<h2 id="removal">Removal</h2>
+<p>If you are an employer and do not want your company listed, email
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a> or open an issue titled
+<code>remove: {provider}:{slug}</code>. The request is honoured within 48 hours: collection
+stops within 48 hours, and the published file drops the rows on the next daily rebuild. The
+slug is added to a blocklist the builder honours on every subsequent run. (The separate
+personal-data erasure window above is 7 days, and is a different promise.) Removal is
+forward-looking: the CC0
+dedication is irrevocable, the repository's git history is public and permanent, and copies
+already downloaded are outside our control.</p>
+
+<h2 id="licence">Licence</h2>
+<p><strong>Free sample:</strong> dedicated to the public domain under
+<a href="https://github.com/moonie0201/hiring-closures/blob/main/LICENSE">CC0 1.0</a>. The rows
+are our own observations — a posting was visible on this date, and was not visible on that
+date — and facts are not copyrightable (<em>Feist v. Rural Telephone</em>, 499 U.S. 340
+(1991)). CC0 is here to remove doubt and to waive the database-producer right that some
+jurisdictions, including Korea, grant over factual tables regardless of originality — not to
+assert a right.</p>
+<p><strong>Paid tiers:</strong> a non-exclusive, non-transferable, non-sublicensable licence to
+use the delivered data internally, including in derived analytics. Redistribution of the raw
+rows, resale, and republication as a public dataset are not licensed. Data is supplied as
+observed, with no warranty of accuracy; see the limitations above for what a closure record
+does and does not mean. Full terms:
+<a href="https://github.com/moonie0201/hiring-closures/blob/main/TERMS.md">TERMS.md</a>.
+Governing law: Republic of Korea.</p>
+
+<h2 id="payment">Payment</h2>
+<p>Orders are taken by email at
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a> and invoiced on delivery.</p>
+<p>Stripe does not operate in South Korea, where this is operated, and no alternative merchant
+of record has been set up. There is no card checkout, no payment link, and no self-serve
+signup. When a payment method exists it will be stated here and not before.</p>
+
+<footer>
+<p>This is an independent dataset. We are not affiliated with, endorsed by, or connected to
+Greenhouse, Lever, Ashby, Recruitee, Rippling, Personio, or any employer named in it. All
+trademarks belong to their owners.</p>
+<p><a href="https://github.com/moonie0201/hiring-closures">Repository</a> ·
+<a href="https://github.com/moonie0201/ats-directory">Company → ATS directory (CC0)</a> ·
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a></p>
+</footer>
+
+</body>
+</html>

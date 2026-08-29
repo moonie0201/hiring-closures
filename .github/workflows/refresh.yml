@@ -1,0 +1,109 @@
+# Rebuilds the free 72-hour sample and commits it. No human in the loop.
+#
+# Runs at 05:30 UTC, after the last collection shard finishes at 04:15 UTC.
+#
+# The exporter lives in moonie0201/ats-jobs (`scripts/export_closures.py`) and resolves the
+# takedown blocklist as `<its repo's parent>/ats-directory/blocklist.txt`, so both repos are
+# checked out as siblings under `_src/`. `--sample` is the only mode that may ever be
+# published: three days, six aggregate columns, Personio and every blocklisted
+# `provider:slug` dropped before anything is written.
+#
+# Repository secret required (set it by hand, once):
+#   APIFY_TOKEN — an Apify API token with read access to the `ats-history` store.
+# Add ATS_JOBS_TOKEN as well only if moonie0201/ats-jobs is private; a public repo needs
+# nothing, and this workflow's own GITHUB_TOKEN cannot read another repository.
+
+name: refresh free sample
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out the exporter
+        uses: actions/checkout@v4
+        with:
+          repository: moonie0201/ats-jobs
+          path: _src/ats-jobs
+          token: ${{ secrets.ATS_JOBS_TOKEN || github.token }}
+
+      # The 48-hour exclusion promise is this file. A missing blocklist is an empty blocklist,
+      # not an error, so it has to be present rather than assumed.
+      - name: Check out the blocklist
+        uses: actions/checkout@v4
+        with:
+          repository: moonie0201/ats-directory
+          path: _src/ats-directory
+          token: ${{ secrets.ATS_JOBS_TOKEN || github.token }}
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+
+      # The whole exporter chain imports one third-party package. Pulling the Actor's
+      # requirements.txt (apify>=4, defusedxml) would add its dependency tree as a daily
+      # unattended failure surface for nothing.
+      - name: Install dependencies
+        run: pip install 'httpx>=0.27,<1'
+
+      - name: Export the last 72 hours
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          test -n "$APIFY_TOKEN" || { echo "APIFY_TOKEN secret is not set"; exit 1; }
+          test -f _src/ats-directory/blocklist.txt || { echo "blocklist missing"; exit 1; }
+          python _src/ats-jobs/scripts/export_closures.py \
+            --sample --out "$GITHUB_WORKSPACE/data"
+
+      # A network blip must never blank the public sample, for the same reason a failed
+      # fetch never emits a removal: an empty file would read as "every board closed".
+      - name: Check the file before publishing it
+        run: |
+          out=data/sample/closures-72h.csv
+          if [ "$(head -1 "$out")" != 'd,provider,company,open,added,removed' ]; then
+            echo "unexpected header in $out"; exit 1
+          fi
+          test -s data/sample/closures-72h.jsonl || { echo "jsonl missing"; exit 1; }
+          rows=$(($(wc -l < "$out") - 1))
+          echo "$rows data rows"
+          if [ "$rows" -lt 1000 ]; then
+            echo "only $rows rows; refusing to commit"; exit 1
+          fi
+          if grep -q ',personio,' "$out"; then
+            echo "personio rows present; refusing to publish"; exit 1
+          fi
+          # The exporter emits the last 3 days *present in the store*, not the last 3
+          # calendar days. If collection dies, it reproduces yesterday's bytes exactly, the
+          # commit step sees no diff, and the job stays green while the sample silently
+          # ages. Collection's last shard lands 04:15 UTC and this runs 05:30, so today is
+          # the normal case and yesterday is the tolerance.
+          newest=$(tail -n +2 "$out" | cut -d, -f1 | sort | tail -1)
+          case "$newest" in
+            "$(date -u +%F)"|"$(date -u -d yesterday +%F)") ;;
+            *) echo "stale sample: newest day is $newest"; exit 1 ;;
+          esac
+
+      - name: Commit when the content changed
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet -- data/; then
+            echo "no change"
+            exit 0
+          fi
+          git add data/
+          git commit -m "data: refresh 72h closure sample ($(date -u +%F))"
+          git push

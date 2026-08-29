@@ -1,0 +1,348 @@
+# hiring-closures
+
+**When job postings disappear.** A daily record of how many postings each company opened,
+held and stopped showing, across 1,574 company boards on six ATS platforms.
+
+Most job-data products tell you what is open. This one tells you what closed. Collection
+started **2026-08-26**; every day since is stored and no earlier day exists anywhere.
+2026-08-26 covers one of the four shards (385 boards); full-watchlist coverage begins
+**2026-08-27**.
+
+- **Free sample:** [`data/sample/closures-72h.csv`](data/sample/closures-72h.csv) — company-day
+  aggregates, last 72 hours, rebuilt daily, CC0. Same rows as
+  [`closures-72h.jsonl`](data/sample/closures-72h.jsonl).
+- **Prices:** [PRICING.md](PRICING.md) · **Terms for the paid tiers:** [TERMS.md](TERMS.md)
+- **Everything on one page:** <https://moonie0201.github.io/hiring-closures/> (served from
+  `docs/`; enable it once under Settings → Pages → Deploy from a branch → `main` `/docs`)
+- **Buying:** email `mooniegilog@gmail.com`. No card payment is wired yet — see
+  [How to buy](#how-to-buy).
+
+```bash
+curl -sL https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv
+```
+
+---
+
+## What a `removed` record means
+
+**Read this before the data.**
+
+A `removed` record means a job posting that was returned by a company's public careers API
+on one day was no longer returned on a later day. It is not a statement that anyone was
+hired, that a role was cancelled, or that anyone lost a job. Postings also stop being
+returned for reasons we cannot observe, including reposting under a new ID, board
+migrations, and provider outages.
+
+Everything in this repository is an observation about an API response. Nothing in it is an
+observation about a person or an employment outcome.
+
+---
+
+## The free file
+
+`data/sample/closures-72h.csv` — one row per company per day, six columns, no free text.
+`data/sample/closures-72h.jsonl` is the same rows, one JSON object per line.
+
+| Column | Type | Meaning |
+|---|---|---|
+| `d` | `YYYY-MM-DD` | the observation date (our clock, UTC) |
+| `provider` | enum | `greenhouse`, `lever`, `ashby`, `recruitee`, `rippling` |
+| `company` | string | the ATS board slug, case-sensitive, verbatim as it validated |
+| `open` | integer | postings the board returned that day |
+| `added` | integer | postings first seen that day |
+| `removed` | integer | postings returned on a previous day and not returned that day |
+
+Real rows, as observed on 2026-08-28:
+
+```csv
+d,provider,company,open,added,removed
+2026-08-28,ashby,1password,63,1,3
+2026-08-28,greenhouse,anthropic,560,10,9
+2026-08-28,greenhouse,figma,160,3,2
+```
+
+Read the first as: on 2026-08-28 that board returned 63 postings; 1 was not there the day
+before; 3 that were there the day before were not returned. Nothing more.
+
+Rows sort by `(d, provider, company)` so a daily rebuild produces a minimal diff. The
+primary key is `(d, provider, company)`.
+
+What the whole file looked like on 2026-08-28, its first day with a complete snapshot on
+both sides of the diff:
+
+| Provider | Companies | Open | Added | Removed |
+|---|---:|---:|---:|---:|
+| greenhouse | 364 | 23,576 | 1,127 | 876 |
+| ashby | 380 | 11,905 | 239 | 231 |
+| lever | 309 | 13,044 | 229 | 244 |
+| recruitee | 173 | 3,838 | 24 | 51 |
+| rippling | 142 | 2,372 | 57 | 70 |
+| **total** | **1,368** | **54,735** | **1,676** | **1,472** |
+
+A company-day row exists only where we actually measured that board. A failed fetch, a
+stale company, a degraded provider and a suspected-empty board all write no row at all, so
+an absent date is absent — never a zero.
+
+**Personio-hosted companies are not in the free file.** Personio's Marketplace Terms of
+Service §4.2 prohibits "creating publicly available directories based on the information
+retrieved from the API", and its API Security & Use Policy extends that clause to parties
+who have not signed the Marketplace agreement. Whether it reaches a caller holding no
+Personio credential is arguable; we are not taking the argument. Personio is covered in the
+paid tiers, which are contracted deliveries and not public directories.
+
+To resolve a slug to a company, use the CC0 company→ATS directory:
+<https://github.com/moonie0201/ats-directory>.
+
+---
+
+## Why nobody can back-fill this
+
+Be clear about what is and is not scarce here, because half of it is free.
+
+**Posting dates are free.** One unauthenticated call returns them today:
+
+| Provider | Field | Example value |
+|---|---|---|
+| Greenhouse | `first_published` | `2024-12-20T13:53:38-05:00` |
+| Lever | `createdAt` | epoch milliseconds |
+| Ashby | `publishedAt` | ISO 8601 |
+
+Anyone can fetch a board right now and compute `days_open` for every posting currently on
+it. If that is what you need, do not buy anything — call the API. We say so on the price
+page too.
+
+**Closure dates are not free, and cannot be made free retroactively.** No provider exposes
+a "removed" field, a "closed" endpoint, or an archive of postings that used to exist. A
+posting that is gone is simply absent from the response. The only way to know the day it
+went absent is to have held a copy of the previous day's response and compared. That is
+the entire product:
+
+- `removed_at` exists only as the difference between two snapshots taken on two different
+  days.
+- A competitor who starts collecting tomorrow gets their first closure record the day after
+  tomorrow, and can never obtain one for 2026-08-26, 2026-08-27, or any day before they
+  started.
+- Everything derived from closures inherits the same property: closure rate, realised
+  time-to-close, repost frequency, and net change (added minus removed).
+
+The dataset therefore does not appreciate because it is large. It appreciates because it is
+old, and it gets exactly one day older per day, for us and for everyone.
+
+---
+
+## Free versus paid
+
+| | Free (this repo) | Paid |
+|---|---|---|
+| Grain | company × day | company × day, **and** job-level events |
+| Columns | 6 aggregate columns | 6 aggregate columns; 12 event fields |
+| Depth | rolling 72 hours | full depth from 2026-08-26, retained 400 days |
+| Providers | 5 (no Personio) | 6 |
+| Free text | none | job title, location, department |
+| Derived metrics | none | built to order — see [PRICING.md](PRICING.md); no metric column is computed by the exporter today |
+| Licence | CC0 1.0 | per-customer data licence ([TERMS.md](TERMS.md)) |
+| Price | $0 | [PRICING.md](PRICING.md) |
+
+Paid job-level event fields, from `core/diff.py`'s `EVENT_KEYS`:
+
+| Field | Meaning |
+|---|---|
+| `d` | observation date |
+| `provider` | ATS platform |
+| `company` | board slug |
+| `job_id` | the provider's own posting identifier |
+| `ev` | `added`, `removed`, or `changed` |
+| `t` | job title |
+| `loc` | location string as published |
+| `dept` | department as published |
+| `url` | the posting's public URL |
+| `posted` | publication date (see the limitation below) |
+| `days_open` | days from `posted` to a `removed` event, else null |
+| `changed` | which of title/location/department/remote changed |
+
+There is no description field, no salary field, and no contact field, in any tier. See
+[What is never sold](#what-is-never-sold).
+
+The free window is 72 hours rather than the 30 days our legal review permits, for one
+reason: CC0 is irrevocable, so anything published free is permanently outside the asset.
+72 hours is enough to check the schema, the coverage and the shape before you buy.
+
+---
+
+## How to buy
+
+Email `mooniegilog@gmail.com` with the tier, the delivery format (CSV or JSONL), and
+whether you want the whole feed or a named list of companies. Orders are taken by email and
+invoiced on delivery.
+
+**No card payment method is available yet.** Stripe does not operate in South Korea, where
+this is operated, and no alternative merchant of record has been set up. When one exists it
+will be stated on this page and not before.
+
+Delivery is a gzipped CSV or JSONL file, regenerated on the schedule of your tier and sent
+to you by link or attachment. There is no self-serve download endpoint and no automated
+per-customer refresh; when one exists it will be stated here and not before.
+
+---
+
+## Provenance and method
+
+**Source.** The public careers API each employer's own ATS publishes, unauthenticated, one
+request per board:
+
+| Provider | Endpoint family | Rate we use |
+|---|---|---|
+| Greenhouse | `boards-api.greenhouse.io/v1/boards/{slug}/jobs` | 2 req/s |
+| Lever | `api.lever.co/v0/postings/{site}` | 1 req/s (`robots.txt` `Crawl-delay: 1`) |
+| Ashby | `api.ashbyhq.com/posting-api/job-board/{slug}` | 2 req/s |
+| Recruitee | careers-site API, one host per company | 2 req/s |
+| Rippling | job board API — **v1 endpoint, undocumented**; the documented v2 API states "a Recruiting Pro subscription is required to use this API" | 0.16 req/s (the documented v2 limit of 100 req / 10 min, which we honour) |
+| Personio | tenant career-page XML feed | 2 req/s — paid tiers only |
+
+No HTML scraping, no login, no Workday, and no undocumented internal endpoint except the
+Rippling v1 job board route noted above.
+
+**Cadence.** Four staggered runs a day at 03:00, 03:25, 03:50 and 04:15 UTC, each covering
+one quarter of the watchlist. Postings are fetched with descriptions off and list-only on.
+
+**Derivation.** Today's response is diffed against the stored copy of the last successful
+response for that board. A posting present before and absent now emits `removed`. A posting
+absent before and present now emits `added`. Aggregation to company-day is a count.
+
+**Storage.** A named key-value store, gzipped JSONL, one file per day per shard, pruned at
+400 days.
+
+---
+
+## Limitations
+
+These are the failure modes we know about. They are in the product because removing them
+would mean inventing data.
+
+**Collection begins 2026-08-26; nothing earlier exists in this dataset. A day we failed to
+collect is missing, not zero.** 2026-08-26 is one of the four shards only (385 of 1,574
+boards); full-watchlist coverage begins 2026-08-27. When a fetch fails, no removal is recorded and the previous
+state is left untouched; a board must return empty on two consecutive runs before any
+removal is emitted; and when more than 90% of one provider's companies return an empty
+board, that provider's results are discarded for the run. The data therefore under-reports
+closures rather than inventing them.
+
+**`posted` and `days_open` are lower bounds in two known cases.** `posted` is the
+provider's own publication date where the provider returns one, and otherwise the first
+date we saw the posting. `days_open` is measured from that value. For any posting that was
+already open on 2026-08-26, and for every Rippling posting — Rippling supplies a creation
+date only in a per-job detail call the snapshot does not make — `days_open` is a lower
+bound, not a measured time-to-close.
+
+**A board's first observed day marks every posting as `added`.** The first time we see a
+board, every posting on it is new to us, so `added` equals `open` and `removed` is 0. That
+is a first sighting, not a burst of new postings. It applies to 2026-08-26 and 2026-08-27
+for most companies, and to any company on the day it joins the watchlist. The first day on
+which both sides of the diff were complete snapshots is **2026-08-28**; treat it as the
+first comparable day.
+
+**A board that returns nothing is not reported as closed.** A board must come back empty on
+two consecutive runs before removals are emitted, and a company-day where the board went to
+zero is dropped from the published file rather than sold as a mass closure: a
+confirmed-empty board and a two-day outage or a board migration are the same bytes.
+
+**Reposts are suppressed, not resolved.** Greenhouse and Lever mint a new posting ID when a
+role is reposted, so a repost arrives as `removed` + `added` rather than as a change. When
+the same canonical posting (title, location, department, remote) is still open under a
+different ID, `days_open` on the removal is withheld rather than counted as a closure
+duration. The `removed` event is still emitted.
+
+**Coverage is the watchlist, not the labour market.** 1,574 company boards that publish
+through one of six ATS platforms and had at least one posting when the watchlist was seeded
+(ashby 381, greenhouse 364, lever 309, personio 202, recruitee 174, rippling 144); 1,570 of
+them answered on 2026-08-28 across all six providers, of which 1,368 are in the
+five-provider free file. It is not a census of anything.
+
+**Recruitee's careers-site API requires an authorization token from 10 February 2027.**
+Recruitee coverage after that date depends on a migration to the XML offer feed that is
+already scheduled.
+
+---
+
+## What is never sold
+
+- **Job advertisement text, in any form.** No description HTML, no plain text, no excerpt,
+  no snippet, no model-generated summary or paraphrase. The body of a job ad is the
+  employer's own copyrighted work; we claim no rights in it and do not reproduce it. It has
+  never been stored: the snapshot runs with descriptions disabled.
+- **Salaries and compensation.** Not collected, and not planned.
+- **Raw provider payloads.** They carry recruiter, hiring-manager and mailbox fields. They
+  are stripped before storage and are not in this dataset.
+- **Any contact, recruiter or candidate field.** None exists in the schema by construction.
+
+---
+
+## No personal data
+
+This dataset describes companies, not people. It contains no names, no email addresses, no
+phone numbers, no recruiter or candidate fields, and no job advertisement text. Job titles
+and location strings are reproduced as the employer published them and are not scanned for
+personal names. If you believe a row identifies you as an individual, write to
+`mooniegilog@gmail.com` and it will be removed within 7 days and blocked from future
+rebuilds.
+
+The free file carries no free text at all — no titles, no locations — which closes that
+channel entirely for the public artefact.
+
+---
+
+## Removal
+
+If you are an employer and do not want your company listed, email `mooniegilog@gmail.com`
+or open an issue titled `remove: {provider}:{slug}`. The request is honoured within 48
+hours: collection stops within 48 hours, and the published file drops the rows on the next
+daily rebuild. The slug is added to a blocklist the builder honours on every subsequent run.
+(The separate personal-data erasure window above is 7 days, and is a different promise.)
+Removal is forward-looking: the CC0 dedication is irrevocable, this repository's git history is public
+and permanent, and copies already downloaded are outside our control.
+
+---
+
+## Licence
+
+The free sample is dedicated to the public domain under [CC0 1.0](LICENSE). The rows are
+our own observations — a posting was visible on this date, and was not visible on that date
+— and facts are not copyrightable (*Feist v. Rural Telephone*, 499 U.S. 340 (1991)). CC0 is
+here to remove doubt and to waive the database-producer right that some jurisdictions,
+including Korea, grant over factual tables regardless of originality — not to assert a
+right.
+
+The paid tiers are not CC0 and not a copyright licence. See [TERMS.md](TERMS.md).
+
+---
+
+## No affiliation
+
+This is an independent dataset. We are not affiliated with, endorsed by, or connected to
+Greenhouse, Lever, Ashby, Recruitee, Rippling, Personio, or any employer named in it. All
+trademarks belong to their owners.
+
+---
+
+## How the free file stays current
+
+`.github/workflows/refresh.yml` runs daily at 05:30 UTC — after the last collection shard
+finishes at 04:15 UTC — regenerates both files in `data/sample/`, and commits them only
+when the content changed. No human is in the loop.
+
+It checks out the exporter (`moonie0201/ats-jobs`, `scripts/export_closures.py`) and the
+takedown blocklist (`moonie0201/ats-directory`) as siblings under `_src/`, runs the
+exporter in `--sample` mode, and refuses to commit unless the output has the expected
+header, at least 1,000 rows, and no Personio row. A network failure leaves the previous
+file in place rather than publishing an empty one.
+
+Repository secrets:
+
+| Secret | Required | Value |
+|---|---|---|
+| `APIFY_TOKEN` | yes | an Apify API token with read access to the `ats-history` key-value store |
+| `ATS_JOBS_TOKEN` | only if `moonie0201/ats-jobs` is private | a token that can read that repository |
+
+Set them under Settings → Secrets and variables → Actions → New repository secret. The
+Apify token is read-only in effect — the exporter only reads `counts.*` and `events.*`
+keys — and neither secret is written to the repository or printed in workflow output.
