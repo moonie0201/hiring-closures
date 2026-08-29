@@ -235,12 +235,7 @@ already open on 2026-08-26, and for every Rippling posting — Rippling supplies
 date only in a per-job detail call the snapshot does not make — `days_open` is a lower
 bound, not a measured time-to-close.
 
-**A board's first observed day marks every posting as `added`.** The first time we see a
-board, every posting on it is new to us, so `added` equals `open` and `removed` is 0. That
-is a first sighting, not a burst of new postings. It applies to 2026-08-26 and 2026-08-27
-for most companies, and to any company on the day it joins the watchlist. The first day on
-which both sides of the diff were complete snapshots is **2026-08-28**; treat it as the
-first comparable day.
+**A board's first observed day is a baseline, not hiring.** The first time we see a board, every posting on it is new to the dataset, so there is nothing to diff against. The file publishes that day with `open` and `removed` filled and **`added` empty** (null), so a reader summing `added` never counts a first sighting as growth. This applies to 2026-08-26 and 2026-08-27 for most companies, and to any company on the day it joins the watchlist. The first day on which both sides of the diff were complete snapshots is **2026-08-28**; treat it as the first comparable day.
 
 **A board that returns nothing is not reported as closed.** A board must come back empty on
 two consecutive runs before removals are emitted, and a company-day where the board went to
