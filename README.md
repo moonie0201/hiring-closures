@@ -135,7 +135,7 @@ old, and it gets exactly one day older per day, for us and for everyone.
 | | Free (this repo) | Paid |
 |---|---|---|
 | Grain | company × day | company × day, **and** job-level events |
-| Columns | 6 aggregate columns | 6 aggregate columns; 12 event fields |
+| Columns | 6 aggregate columns | 6 aggregate columns; 13 event fields |
 | Depth | rolling 72 hours | full depth from 2026-08-26, retained 400 days |
 | Providers | 5 (no Personio) | 6 |
 | Free text | none | job title, location, department |
@@ -154,11 +154,12 @@ Paid job-level event fields, from `core/diff.py`'s `EVENT_KEYS`:
 | `ev` | `added`, `removed`, or `changed` |
 | `t` | job title |
 | `loc` | location string as published |
-| `dept` | department as published |
+| `dept` | department as published. Greenhouse: null on every row before 2026-08-29 (the list-only board API omits it; since then it comes from a second `/departments` call per board), and null on the `added` rows of a day that call failed — never on a `removed`, which keeps the department last known |
 | `url` | the posting's public URL |
 | `posted` | publication date (see the limitation below) |
 | `days_open` | days from `posted` to a `removed` event, else null |
 | `changed` | which of title/location/department/remote changed |
+| `verified` | on `removed` rows only, else null. `true`: the feed dropped the job **and** the provider's single-posting endpoint answered 404 (Greenhouse and Lever, from 2026-08-29). `false`: the feed dropped it but that endpoint could not be asked on three consecutive sweeps, so the row is up to three days late. `null`: Ashby, Recruitee, Rippling and Personio have no such endpoint, so the feed is the only signal — and every row before 2026-08-29. A job the feed dropped while the endpoint still served it is not a row at all |
 
 There is no description field, no salary field, and no contact field, in any tier. See
 [What is never sold](#what-is-never-sold).

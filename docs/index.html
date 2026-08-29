@@ -184,7 +184,7 @@ it gets exactly one day older per day — for us and for everyone.</p>
 <tr><td>Grain</td><td>company × day</td><td>+ job-level events</td><td>+ per-company derived metrics</td></tr>
 <tr><td>Fields</td>
     <td><code>d, provider, company, open, added, removed</code></td>
-    <td>+ <code>job_id, ev, t, loc, dept, url, posted, days_open, changed</code></td>
+    <td>+ <code>job_id, ev, t, loc, dept, url, posted, days_open, changed, verified</code><br><span class="small muted"><code>verified</code> on <code>removed</code> rows: true = feed dropped it and the provider's single-posting endpoint answered 404 (Greenhouse, Lever, from 2026-08-29); false = endpoint unreachable on three consecutive sweeps; null = no such endpoint (Ashby, Recruitee, Rippling, Personio) or before 2026-08-29. <code>dept</code> on Greenhouse is null before 2026-08-29 and on the <code>added</code> rows of a day the <code>/departments</code> call failed.</span></td>
     <td>+ computed columns</td></tr>
 <tr><td>Depth</td><td>full, from 2026-08-26</td><td>full, from 2026-08-26</td><td>full, from 2026-08-26</td></tr>
 <tr><td>Availability</td><td>shipping</td><td>shipping</td><td><strong>built to order</strong> — no metric column is derived by any code today</td></tr>

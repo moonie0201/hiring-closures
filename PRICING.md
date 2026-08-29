@@ -9,7 +9,7 @@ delivery. No card payment method is available yet — see [Payment](#payment).
 |---|---|---|---|
 | **Price** | **$49/month** or $490/year | **$199/month** or $1,990/year | **priced on request** |
 | Grain | company × day | + job-level events | + per-company derived metrics |
-| Fields | `d, provider, company, open, added, removed` | + `job_id, ev, t, loc, dept, url, posted, days_open, changed` | + computed columns, below |
+| Fields | `d, provider, company, open, added, removed` | + `job_id, ev, t, loc, dept, url, posted, days_open, changed, verified` — see the [field table](README.md#free-versus-paid) for the `dept` and `verified` caveats | + computed columns, below |
 | Depth | full, from 2026-08-26 | full, from 2026-08-26 | full, from 2026-08-26 |
 | Availability | shipping | shipping | **built to order** — the metric columns are not yet derived by any code |
 | Providers | 6, including Personio and Recruitee | 6 | 6 |
