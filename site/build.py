@@ -176,6 +176,26 @@ def merge_history(
     return [days[d] for d in sorted(days)]
 
 
+# --- analytics ----------------------------------------------------------------------
+
+#: GA4 measurement id for the Pages site. Cookieless configuration: `client_storage: none`
+#: (no _ga cookie, no persistent client id), ad signals and personalisation off. Page views
+#: and referrers still arrive, which is all the site needs to learn where readers come from.
+GA_ID = "G-3G87HK9EL5"
+GA_TAG = f"""<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){{dataLayer.push(arguments);}}
+gtag('js', new Date());
+gtag('config', '{GA_ID}', {{
+  'client_storage': 'none',
+  'allow_google_signals': false,
+  'allow_ad_personalization_signals': false,
+  'anonymize_ip': true
+}});
+</script>
+"""
+
 # --- html --------------------------------------------------------------------------
 
 DISCLAIMER = f"""<div class="disclaimer">
@@ -194,6 +214,10 @@ complete snapshots on both sides of the diff is {FIRST_COMPARABLE}.</p>
 <p><strong>No job advertisement text, ever.</strong> The body of a job ad is the employer's
 own copyrighted work; it is never stored, reproduced, excerpted or summarised, in any tier.
 The free file carries no free text at all — no titles, no locations, no URLs.</p>
+<p><strong>Measurement.</strong> Page views are counted with Google Analytics in a
+cookieless configuration: no analytics cookie is set, no client identifier is stored, IP
+addresses are anonymised, and advertising features are off. The only purpose is to see which
+pages are read and where readers arrive from.</p>
 <p><a href="{REPO}">Repository</a> ·
 <a href="https://github.com/moonie0201/ats-directory">Company → ATS directory (CC0)</a> ·
 <a href="{CC0}">CC0 1.0</a> ·
@@ -227,7 +251,7 @@ def page(file: str, title: str, description: str, body: str, head: str = "") -> 
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{url}">
 <link rel="stylesheet" href="style.css">
-{head}</head>
+{GA_TAG}{head}</head>
 <body>
 <nav>{nav} · <a href="{RAW}closures-72h.csv">CSV</a> · <a href="{REPO}">Repository</a></nav>
 {body}
