@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companies closing job postings fastest, 2026-08-27 to 2026-08-29 — hiring-closures</title>
+<meta name="description" content="Company careers boards ranked by job postings closed and by closure share, 2026-08-27 to 2026-08-29, recomputed daily from a CC0 file of company-day counts across five ATS platforms. Formula stated; every number reproducible.">
+<link rel="canonical" href="https://moonie0201.github.io/hiring-closures/closing-fastest.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hiring-closures">
+<meta property="og:title" content="Companies closing job postings fastest, 2026-08-27 to 2026-08-29 — hiring-closures">
+<meta property="og:description" content="Company careers boards ranked by job postings closed and by closure share, 2026-08-27 to 2026-08-29, recomputed daily from a CC0 file of company-day counts across five ATS platforms. Formula stated; every number reproducible.">
+<meta property="og:url" content="https://moonie0201.github.io/hiring-closures/closing-fastest.html">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a href="./">Home</a> · <a href="closing-fastest.html" aria-current="page">Closing fastest</a> · <a href="calendar.html">Calendar</a> · <a href="https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv">CSV</a> · <a href="https://github.com/moonie0201/hiring-closures">Repository</a></nav>
+<h1>Which companies are closing job postings fastest?</h1>
+<p class="lede">Ranked from the free file: every board measured in the five-provider
+free file, stock measured on <strong>2026-08-27</strong>, changes through
+<strong>2026-08-29</strong>. Rebuilt daily as the 72-hour window rolls forward.</p>
+
+<div class="note">
+<p><strong>How every number here is computed.</strong> For each company, the first day it
+appears in the file sets <em>open at start</em>. Over the days after it, <em>added</em> is
+the sum of <code>added</code> and <em>closed</em> the sum of <code>removed</code>; the first
+day's own <code>added</code>/<code>removed</code> describe the change from a day outside the
+file and are not used, which is also what keeps a first-day baseline (<code>added</code>
+empty) out of every sum. <strong>Closure share = closed ÷ (open at start + added)</strong>:
+the fraction of every posting that was on the board at any point in the window and was
+gone by the end. <em>Net</em> = added − closed, and <em>open now</em> = open at start + added
+− closed holds for every row in this build. Only boards with <strong>at least 10 postings
+open at the start</strong> and measured on more than one day are ranked (839 of
+1,371 boards); below that a share is noise. Ties are broken by the secondary
+column, then provider, then company, so the order is reproducible.</p>
+</div>
+
+<h2 id="closed">Most postings closed</h2>
+<p class="small muted">Top 50 by postings closed; ties by closure share.</p>
+<div class="tw"><table><thead><tr><th class="n">#</th><th class="">Company</th><th class="">Provider</th><th class="n">Open at start</th><th class="n">Added</th><th class="n">Closed</th><th class="n">Closure share</th><th class="n">Open now</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td class=""><code>centriaautism</code></td><td class="">greenhouse</td><td class="n">1,160</td><td class="n">533</td><td class="n">499</td><td class="n">29.5%</td><td class="n">1,194</td></tr>
+<tr><td class="n">2</td><td class=""><code>clera</code></td><td class="">ashby</td><td class="n">291</td><td class="n">68</td><td class="n">75</td><td class="n">20.9%</td><td class="n">284</td></tr>
+<tr><td class="n">3</td><td class=""><code>andurilindustries</code></td><td class="">greenhouse</td><td class="n">2,176</td><td class="n">71</td><td class="n">70</td><td class="n">3.1%</td><td class="n">2,177</td></tr>
+<tr><td class="n">4</td><td class=""><code>capco</code></td><td class="">greenhouse</td><td class="n">760</td><td class="n">30</td><td class="n">41</td><td class="n">5.2%</td><td class="n">749</td></tr>
+<tr><td class="n">5</td><td class=""><code>nory-co</code></td><td class="">ashby</td><td class="n">32</td><td class="n">31</td><td class="n">29</td><td class="n">46.0%</td><td class="n">34</td></tr>
+<tr><td class="n">6</td><td class=""><code>aloyoga</code></td><td class="">greenhouse</td><td class="n">933</td><td class="n">186</td><td class="n">27</td><td class="n">2.4%</td><td class="n">1,092</td></tr>
+<tr><td class="n">7</td><td class=""><code>accenturefederalservices</code></td><td class="">greenhouse</td><td class="n">638</td><td class="n">30</td><td class="n">26</td><td class="n">3.9%</td><td class="n">642</td></tr>
+<tr><td class="n">8</td><td class=""><code>axon</code></td><td class="">greenhouse</td><td class="n">506</td><td class="n">17</td><td class="n">21</td><td class="n">4.0%</td><td class="n">502</td></tr>
+<tr><td class="n">9</td><td class=""><code>ennoblecare</code></td><td class="">greenhouse</td><td class="n">188</td><td class="n">35</td><td class="n">20</td><td class="n">9.0%</td><td class="n">203</td></tr>
+<tr><td class="n">10</td><td class=""><code>rippling</code></td><td class="">rippling</td><td class="n">373</td><td class="n">18</td><td class="n">19</td><td class="n">4.9%</td><td class="n">372</td></tr>
+<tr><td class="n">11</td><td class=""><code>openai</code></td><td class="">ashby</td><td class="n">746</td><td class="n">31</td><td class="n">19</td><td class="n">2.4%</td><td class="n">758</td></tr>
+<tr><td class="n">12</td><td class=""><code>grafanalabs</code></td><td class="">greenhouse</td><td class="n">152</td><td class="n">0</td><td class="n">18</td><td class="n">11.8%</td><td class="n">134</td></tr>
+<tr><td class="n">13</td><td class=""><code>cloudflare</code></td><td class="">greenhouse</td><td class="n">307</td><td class="n">20</td><td class="n">18</td><td class="n">5.5%</td><td class="n">309</td></tr>
+<tr><td class="n">14</td><td class=""><code>CesiumAstro</code></td><td class="">lever</td><td class="n">264</td><td class="n">7</td><td class="n">17</td><td class="n">6.3%</td><td class="n">254</td></tr>
+<tr><td class="n">15</td><td class=""><code>veeva</code></td><td class="">lever</td><td class="n">880</td><td class="n">24</td><td class="n">17</td><td class="n">1.9%</td><td class="n">887</td></tr>
+<tr><td class="n">16</td><td class=""><code>kgroupcompanies</code></td><td class="">lever</td><td class="n">22</td><td class="n">14</td><td class="n">16</td><td class="n">44.4%</td><td class="n">20</td></tr>
+<tr><td class="n">17</td><td class=""><code>alphasense</code></td><td class="">greenhouse</td><td class="n">241</td><td class="n">10</td><td class="n">16</td><td class="n">6.4%</td><td class="n">235</td></tr>
+<tr><td class="n">18</td><td class=""><code>doordashusa</code></td><td class="">greenhouse</td><td class="n">472</td><td class="n">12</td><td class="n">16</td><td class="n">3.3%</td><td class="n">468</td></tr>
+<tr><td class="n">19</td><td class=""><code>jerry.ai</code></td><td class="">ashby</td><td class="n">44</td><td class="n">10</td><td class="n">15</td><td class="n">27.8%</td><td class="n">39</td></tr>
+<tr><td class="n">20</td><td class=""><code>nws</code></td><td class="">rippling</td><td class="n">144</td><td class="n">3</td><td class="n">15</td><td class="n">10.2%</td><td class="n">132</td></tr>
+<tr><td class="n">21</td><td class=""><code>harvey</code></td><td class="">ashby</td><td class="n">354</td><td class="n">11</td><td class="n">15</td><td class="n">4.1%</td><td class="n">350</td></tr>
+<tr><td class="n">22</td><td class=""><code>anthropic</code></td><td class="">greenhouse</td><td class="n">559</td><td class="n">27</td><td class="n">15</td><td class="n">2.6%</td><td class="n">571</td></tr>
+<tr><td class="n">23</td><td class=""><code>rws</code></td><td class="">lever</td><td class="n">65</td><td class="n">10</td><td class="n">14</td><td class="n">18.7%</td><td class="n">61</td></tr>
+<tr><td class="n">24</td><td class=""><code>anaplan</code></td><td class="">greenhouse</td><td class="n">158</td><td class="n">3</td><td class="n">14</td><td class="n">8.7%</td><td class="n">147</td></tr>
+<tr><td class="n">25</td><td class=""><code>arcteryx.com</code></td><td class="">lever</td><td class="n">318</td><td class="n">3</td><td class="n">14</td><td class="n">4.4%</td><td class="n">307</td></tr>
+<tr><td class="n">26</td><td class=""><code>shieldai</code></td><td class="">lever</td><td class="n">438</td><td class="n">13</td><td class="n">14</td><td class="n">3.1%</td><td class="n">437</td></tr>
+<tr><td class="n">27</td><td class=""><code>lynx-software-technologies</code></td><td class="">rippling</td><td class="n">26</td><td class="n">14</td><td class="n">13</td><td class="n">32.5%</td><td class="n">27</td></tr>
+<tr><td class="n">28</td><td class=""><code>cortland</code></td><td class="">greenhouse</td><td class="n">119</td><td class="n">12</td><td class="n">12</td><td class="n">9.2%</td><td class="n">119</td></tr>
+<tr><td class="n">29</td><td class=""><code>cssmerge</code></td><td class="">greenhouse</td><td class="n">256</td><td class="n">6</td><td class="n">12</td><td class="n">4.6%</td><td class="n">250</td></tr>
+<tr><td class="n">30</td><td class=""><code>graphcore</code></td><td class="">greenhouse</td><td class="n">198</td><td class="n">7</td><td class="n">11</td><td class="n">5.4%</td><td class="n">194</td></tr>
+<tr><td class="n">31</td><td class=""><code>daniels-sharpsmart</code></td><td class="">lever</td><td class="n">190</td><td class="n">17</td><td class="n">11</td><td class="n">5.3%</td><td class="n">196</td></tr>
+<tr><td class="n">32</td><td class=""><code>agoda</code></td><td class="">greenhouse</td><td class="n">280</td><td class="n">12</td><td class="n">11</td><td class="n">3.8%</td><td class="n">281</td></tr>
+<tr><td class="n">33</td><td class=""><code>Crusoe</code></td><td class="">ashby</td><td class="n">362</td><td class="n">25</td><td class="n">10</td><td class="n">2.6%</td><td class="n">377</td></tr>
+<tr><td class="n">34</td><td class=""><code>broccoli</code></td><td class="">ashby</td><td class="n">41</td><td class="n">1</td><td class="n">9</td><td class="n">21.4%</td><td class="n">33</td></tr>
+<tr><td class="n">35</td><td class=""><code>heartflowinc</code></td><td class="">greenhouse</td><td class="n">64</td><td class="n">5</td><td class="n">9</td><td class="n">13.0%</td><td class="n">60</td></tr>
+<tr><td class="n">36</td><td class=""><code>conceptplus</code></td><td class="">rippling</td><td class="n">74</td><td class="n">1</td><td class="n">9</td><td class="n">12.0%</td><td class="n">66</td></tr>
+<tr><td class="n">37</td><td class=""><code>agile-defense</code></td><td class="">lever</td><td class="n">95</td><td class="n">6</td><td class="n">9</td><td class="n">8.9%</td><td class="n">92</td></tr>
+<tr><td class="n">38</td><td class=""><code>getwingapp</code></td><td class="">lever</td><td class="n">474</td><td class="n">9</td><td class="n">9</td><td class="n">1.9%</td><td class="n">474</td></tr>
+<tr><td class="n">39</td><td class=""><code>agenturfuerhaushaltshilfe</code></td><td class="">recruitee</td><td class="n">1,319</td><td class="n">1</td><td class="n">9</td><td class="n">0.7%</td><td class="n">1,311</td></tr>
+<tr><td class="n">40</td><td class=""><code>beaconai</code></td><td class="">ashby</td><td class="n">15</td><td class="n">8</td><td class="n">8</td><td class="n">34.8%</td><td class="n">15</td></tr>
+<tr><td class="n">41</td><td class=""><code>abby-care</code></td><td class="">ashby</td><td class="n">33</td><td class="n">1</td><td class="n">8</td><td class="n">23.5%</td><td class="n">26</td></tr>
+<tr><td class="n">42</td><td class=""><code>nesto</code></td><td class="">rippling</td><td class="n">34</td><td class="n">1</td><td class="n">8</td><td class="n">22.9%</td><td class="n">27</td></tr>
+<tr><td class="n">43</td><td class=""><code>comstock</code></td><td class="">greenhouse</td><td class="n">59</td><td class="n">15</td><td class="n">8</td><td class="n">10.8%</td><td class="n">66</td></tr>
+<tr><td class="n">44</td><td class=""><code>arrivelogistics</code></td><td class="">lever</td><td class="n">78</td><td class="n">4</td><td class="n">8</td><td class="n">9.8%</td><td class="n">74</td></tr>
+<tr><td class="n">45</td><td class=""><code>delinea</code></td><td class="">ashby</td><td class="n">89</td><td class="n">4</td><td class="n">8</td><td class="n">8.6%</td><td class="n">85</td></tr>
+<tr><td class="n">46</td><td class=""><code>gleanwork</code></td><td class="">greenhouse</td><td class="n">116</td><td class="n">2</td><td class="n">8</td><td class="n">6.8%</td><td class="n">110</td></tr>
+<tr><td class="n">47</td><td class=""><code>appian</code></td><td class="">greenhouse</td><td class="n">169</td><td class="n">7</td><td class="n">8</td><td class="n">4.5%</td><td class="n">168</td></tr>
+<tr><td class="n">48</td><td class=""><code>checkout.com</code></td><td class="">ashby</td><td class="n">175</td><td class="n">9</td><td class="n">8</td><td class="n">4.3%</td><td class="n">176</td></tr>
+<tr><td class="n">49</td><td class=""><code>duravermeer</code></td><td class="">recruitee</td><td class="n">361</td><td class="n">7</td><td class="n">8</td><td class="n">2.2%</td><td class="n">360</td></tr>
+<tr><td class="n">50</td><td class=""><code>weloglobal</code></td><td class="">lever</td><td class="n">611</td><td class="n">6</td><td class="n">8</td><td class="n">1.3%</td><td class="n">609</td></tr>
+</tbody></table></div>
+
+<h2 id="share">Highest closure share</h2>
+<p class="small muted">Top 50 by closure share; ties by postings closed. A high
+share on a small board can be a board migration or a repost under new IDs — see the
+disclaimer below.</p>
+<div class="tw"><table><thead><tr><th class="n">#</th><th class="">Company</th><th class="">Provider</th><th class="n">Open at start</th><th class="n">Added</th><th class="n">Closed</th><th class="n">Closure share</th><th class="n">Open now</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td class=""><code>nory-co</code></td><td class="">ashby</td><td class="n">32</td><td class="n">31</td><td class="n">29</td><td class="n">46.0%</td><td class="n">34</td></tr>
+<tr><td class="n">2</td><td class=""><code>kgroupcompanies</code></td><td class="">lever</td><td class="n">22</td><td class="n">14</td><td class="n">16</td><td class="n">44.4%</td><td class="n">20</td></tr>
+<tr><td class="n">3</td><td class=""><code>beaconai</code></td><td class="">ashby</td><td class="n">15</td><td class="n">8</td><td class="n">8</td><td class="n">34.8%</td><td class="n">15</td></tr>
+<tr><td class="n">4</td><td class=""><code>charterup</code></td><td class="">greenhouse</td><td class="n">13</td><td class="n">2</td><td class="n">5</td><td class="n">33.3%</td><td class="n">10</td></tr>
+<tr><td class="n">5</td><td class=""><code>lynx-software-technologies</code></td><td class="">rippling</td><td class="n">26</td><td class="n">14</td><td class="n">13</td><td class="n">32.5%</td><td class="n">27</td></tr>
+<tr><td class="n">6</td><td class=""><code>centriaautism</code></td><td class="">greenhouse</td><td class="n">1,160</td><td class="n">533</td><td class="n">499</td><td class="n">29.5%</td><td class="n">1,194</td></tr>
+<tr><td class="n">7</td><td class=""><code>jerry.ai</code></td><td class="">ashby</td><td class="n">44</td><td class="n">10</td><td class="n">15</td><td class="n">27.8%</td><td class="n">39</td></tr>
+<tr><td class="n">8</td><td class=""><code>jobsatphamily</code></td><td class="">greenhouse</td><td class="n">21</td><td class="n">0</td><td class="n">5</td><td class="n">23.8%</td><td class="n">16</td></tr>
+<tr><td class="n">9</td><td class=""><code>achievers</code></td><td class="">lever</td><td class="n">20</td><td class="n">1</td><td class="n">5</td><td class="n">23.8%</td><td class="n">16</td></tr>
+<tr><td class="n">10</td><td class=""><code>abby-care</code></td><td class="">ashby</td><td class="n">33</td><td class="n">1</td><td class="n">8</td><td class="n">23.5%</td><td class="n">26</td></tr>
+<tr><td class="n">11</td><td class=""><code>goremutualinsurance</code></td><td class="">greenhouse</td><td class="n">13</td><td class="n">0</td><td class="n">3</td><td class="n">23.1%</td><td class="n">10</td></tr>
+<tr><td class="n">12</td><td class=""><code>nesto</code></td><td class="">rippling</td><td class="n">34</td><td class="n">1</td><td class="n">8</td><td class="n">22.9%</td><td class="n">27</td></tr>
+<tr><td class="n">13</td><td class=""><code>broccoli</code></td><td class="">ashby</td><td class="n">41</td><td class="n">1</td><td class="n">9</td><td class="n">21.4%</td><td class="n">33</td></tr>
+<tr><td class="n">14</td><td class=""><code>gradial</code></td><td class="">greenhouse</td><td class="n">19</td><td class="n">0</td><td class="n">4</td><td class="n">21.1%</td><td class="n">15</td></tr>
+<tr><td class="n">15</td><td class=""><code>clera</code></td><td class="">ashby</td><td class="n">291</td><td class="n">68</td><td class="n">75</td><td class="n">20.9%</td><td class="n">284</td></tr>
+<tr><td class="n">16</td><td class=""><code>meds</code></td><td class="">lever</td><td class="n">20</td><td class="n">0</td><td class="n">4</td><td class="n">20.0%</td><td class="n">16</td></tr>
+<tr><td class="n">17</td><td class=""><code>epac-careers</code></td><td class="">rippling</td><td class="n">17</td><td class="n">3</td><td class="n">4</td><td class="n">20.0%</td><td class="n">16</td></tr>
+<tr><td class="n">18</td><td class=""><code>Nash</code></td><td class="">ashby</td><td class="n">21</td><td class="n">0</td><td class="n">4</td><td class="n">19.0%</td><td class="n">17</td></tr>
+<tr><td class="n">19</td><td class=""><code>BestEgg</code></td><td class="">lever</td><td class="n">12</td><td class="n">4</td><td class="n">3</td><td class="n">18.8%</td><td class="n">13</td></tr>
+<tr><td class="n">20</td><td class=""><code>rws</code></td><td class="">lever</td><td class="n">65</td><td class="n">10</td><td class="n">14</td><td class="n">18.7%</td><td class="n">61</td></tr>
+<tr><td class="n">21</td><td class=""><code>1800contacts</code></td><td class="">greenhouse</td><td class="n">11</td><td class="n">0</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">22</td><td class=""><code>abacusinsights</code></td><td class="">greenhouse</td><td class="n">11</td><td class="n">0</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">23</td><td class=""><code>dnagenotek</code></td><td class="">lever</td><td class="n">11</td><td class="n">0</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">24</td><td class=""><code>rigetti</code></td><td class="">lever</td><td class="n">11</td><td class="n">0</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">25</td><td class=""><code>christiaensgroup</code></td><td class="">recruitee</td><td class="n">11</td><td class="n">0</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">26</td><td class=""><code>journaltech</code></td><td class="">rippling</td><td class="n">10</td><td class="n">1</td><td class="n">2</td><td class="n">18.2%</td><td class="n">9</td></tr>
+<tr><td class="n">27</td><td class=""><code>coursera</code></td><td class="">greenhouse</td><td class="n">23</td><td class="n">1</td><td class="n">4</td><td class="n">16.7%</td><td class="n">20</td></tr>
+<tr><td class="n">28</td><td class=""><code>bioagilytix</code></td><td class="">lever</td><td class="n">10</td><td class="n">2</td><td class="n">2</td><td class="n">16.7%</td><td class="n">10</td></tr>
+<tr><td class="n">29</td><td class=""><code>affideaportugal</code></td><td class="">recruitee</td><td class="n">11</td><td class="n">1</td><td class="n">2</td><td class="n">16.7%</td><td class="n">10</td></tr>
+<tr><td class="n">30</td><td class=""><code>hawkeyeinnovations</code></td><td class="">ashby</td><td class="n">35</td><td class="n">3</td><td class="n">6</td><td class="n">15.8%</td><td class="n">32</td></tr>
+<tr><td class="n">31</td><td class=""><code>limble</code></td><td class="">ashby</td><td class="n">13</td><td class="n">0</td><td class="n">2</td><td class="n">15.4%</td><td class="n">11</td></tr>
+<tr><td class="n">32</td><td class=""><code>concentric</code></td><td class="">greenhouse</td><td class="n">12</td><td class="n">1</td><td class="n">2</td><td class="n">15.4%</td><td class="n">11</td></tr>
+<tr><td class="n">33</td><td class=""><code>glass-roots-construction-llc</code></td><td class="">rippling</td><td class="n">13</td><td class="n">0</td><td class="n">2</td><td class="n">15.4%</td><td class="n">11</td></tr>
+<tr><td class="n">34</td><td class=""><code>confluent</code></td><td class="">ashby</td><td class="n">27</td><td class="n">0</td><td class="n">4</td><td class="n">14.8%</td><td class="n">23</td></tr>
+<tr><td class="n">35</td><td class=""><code>redwoodcu</code></td><td class="">lever</td><td class="n">32</td><td class="n">3</td><td class="n">5</td><td class="n">14.3%</td><td class="n">30</td></tr>
+<tr><td class="n">36</td><td class=""><code>metergysolutions</code></td><td class="">lever</td><td class="n">21</td><td class="n">0</td><td class="n">3</td><td class="n">14.3%</td><td class="n">18</td></tr>
+<tr><td class="n">37</td><td class=""><code>collective</code></td><td class="">ashby</td><td class="n">14</td><td class="n">0</td><td class="n">2</td><td class="n">14.3%</td><td class="n">12</td></tr>
+<tr><td class="n">38</td><td class=""><code>sugarcrm</code></td><td class="">lever</td><td class="n">12</td><td class="n">2</td><td class="n">2</td><td class="n">14.3%</td><td class="n">12</td></tr>
+<tr><td class="n">39</td><td class=""><code>meridianlink</code></td><td class="">ashby</td><td class="n">29</td><td class="n">0</td><td class="n">4</td><td class="n">13.8%</td><td class="n">25</td></tr>
+<tr><td class="n">40</td><td class=""><code>fundingcircle</code></td><td class="">ashby</td><td class="n">20</td><td class="n">2</td><td class="n">3</td><td class="n">13.6%</td><td class="n">19</td></tr>
+<tr><td class="n">41</td><td class=""><code>protective</code></td><td class="">lever</td><td class="n">33</td><td class="n">4</td><td class="n">5</td><td class="n">13.5%</td><td class="n">32</td></tr>
+<tr><td class="n">42</td><td class=""><code>archy</code></td><td class="">ashby</td><td class="n">15</td><td class="n">0</td><td class="n">2</td><td class="n">13.3%</td><td class="n">13</td></tr>
+<tr><td class="n">43</td><td class=""><code>actian</code></td><td class="">lever</td><td class="n">14</td><td class="n">1</td><td class="n">2</td><td class="n">13.3%</td><td class="n">13</td></tr>
+<tr><td class="n">44</td><td class=""><code>moo</code></td><td class="">lever</td><td class="n">14</td><td class="n">1</td><td class="n">2</td><td class="n">13.3%</td><td class="n">13</td></tr>
+<tr><td class="n">45</td><td class=""><code>colheli</code></td><td class="">rippling</td><td class="n">14</td><td class="n">1</td><td class="n">2</td><td class="n">13.3%</td><td class="n">13</td></tr>
+<tr><td class="n">46</td><td class=""><code>heartflowinc</code></td><td class="">greenhouse</td><td class="n">64</td><td class="n">5</td><td class="n">9</td><td class="n">13.0%</td><td class="n">60</td></tr>
+<tr><td class="n">47</td><td class=""><code>censys</code></td><td class="">greenhouse</td><td class="n">18</td><td class="n">5</td><td class="n">3</td><td class="n">13.0%</td><td class="n">20</td></tr>
+<tr><td class="n">48</td><td class=""><code>abridge</code></td><td class="">ashby</td><td class="n">48</td><td class="n">0</td><td class="n">6</td><td class="n">12.5%</td><td class="n">42</td></tr>
+<tr><td class="n">49</td><td class=""><code>dlhcorporation</code></td><td class="">greenhouse</td><td class="n">18</td><td class="n">6</td><td class="n">3</td><td class="n">12.5%</td><td class="n">21</td></tr>
+<tr><td class="n">50</td><td class=""><code>haydenai</code></td><td class="">ashby</td><td class="n">16</td><td class="n">0</td><td class="n">2</td><td class="n">12.5%</td><td class="n">14</td></tr>
+</tbody></table></div>
+
+<h2 id="growth">Largest net growth</h2>
+<p class="small muted">Top 50 by net (added − closed); ties by postings added.</p>
+<div class="tw"><table><thead><tr><th class="n">#</th><th class="">Company</th><th class="">Provider</th><th class="n">Open at start</th><th class="n">Added</th><th class="n">Closed</th><th class="n">Net</th><th class="n">Open now</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td class=""><code>aloyoga</code></td><td class="">greenhouse</td><td class="n">933</td><td class="n">186</td><td class="n">27</td><td class="n">+159</td><td class="n">1,092</td></tr>
+<tr><td class="n">2</td><td class=""><code>centriaautism</code></td><td class="">greenhouse</td><td class="n">1,160</td><td class="n">533</td><td class="n">499</td><td class="n">+34</td><td class="n">1,194</td></tr>
+<tr><td class="n">3</td><td class=""><code>axsometherapeutics</code></td><td class="">greenhouse</td><td class="n">98</td><td class="n">24</td><td class="n">5</td><td class="n">+19</td><td class="n">117</td></tr>
+<tr><td class="n">4</td><td class=""><code>ennoblecare</code></td><td class="">greenhouse</td><td class="n">188</td><td class="n">35</td><td class="n">20</td><td class="n">+15</td><td class="n">203</td></tr>
+<tr><td class="n">5</td><td class=""><code>Crusoe</code></td><td class="">ashby</td><td class="n">362</td><td class="n">25</td><td class="n">10</td><td class="n">+15</td><td class="n">377</td></tr>
+<tr><td class="n">6</td><td class=""><code>glsllc</code></td><td class="">lever</td><td class="n">35</td><td class="n">19</td><td class="n">5</td><td class="n">+14</td><td class="n">49</td></tr>
+<tr><td class="n">7</td><td class=""><code>altentechnologyusa</code></td><td class="">greenhouse</td><td class="n">184</td><td class="n">17</td><td class="n">4</td><td class="n">+13</td><td class="n">197</td></tr>
+<tr><td class="n">8</td><td class=""><code>openai</code></td><td class="">ashby</td><td class="n">746</td><td class="n">31</td><td class="n">19</td><td class="n">+12</td><td class="n">758</td></tr>
+<tr><td class="n">9</td><td class=""><code>anthropic</code></td><td class="">greenhouse</td><td class="n">559</td><td class="n">27</td><td class="n">15</td><td class="n">+12</td><td class="n">571</td></tr>
+<tr><td class="n">10</td><td class=""><code>fab2</code></td><td class="">ashby</td><td class="n">31</td><td class="n">10</td><td class="n">0</td><td class="n">+10</td><td class="n">41</td></tr>
+<tr><td class="n">11</td><td class=""><code>ionq</code></td><td class="">greenhouse</td><td class="n">105</td><td class="n">12</td><td class="n">3</td><td class="n">+9</td><td class="n">114</td></tr>
+<tr><td class="n">12</td><td class=""><code>veeva</code></td><td class="">lever</td><td class="n">880</td><td class="n">24</td><td class="n">17</td><td class="n">+7</td><td class="n">887</td></tr>
+<tr><td class="n">13</td><td class=""><code>comstock</code></td><td class="">greenhouse</td><td class="n">59</td><td class="n">15</td><td class="n">8</td><td class="n">+7</td><td class="n">66</td></tr>
+<tr><td class="n">14</td><td class=""><code>NorthwoodSpace</code></td><td class="">ashby</td><td class="n">76</td><td class="n">9</td><td class="n">2</td><td class="n">+7</td><td class="n">83</td></tr>
+<tr><td class="n">15</td><td class=""><code>pigment</code></td><td class="">lever</td><td class="n">103</td><td class="n">8</td><td class="n">1</td><td class="n">+7</td><td class="n">110</td></tr>
+<tr><td class="n">16</td><td class=""><code>daniels-sharpsmart</code></td><td class="">lever</td><td class="n">190</td><td class="n">17</td><td class="n">11</td><td class="n">+6</td><td class="n">196</td></tr>
+<tr><td class="n">17</td><td class=""><code>affirm</code></td><td class="">greenhouse</td><td class="n">204</td><td class="n">12</td><td class="n">6</td><td class="n">+6</td><td class="n">210</td></tr>
+<tr><td class="n">18</td><td class=""><code>wachter</code></td><td class="">lever</td><td class="n">129</td><td class="n">10</td><td class="n">4</td><td class="n">+6</td><td class="n">135</td></tr>
+<tr><td class="n">19</td><td class=""><code>allcareers</code></td><td class="">greenhouse</td><td class="n">112</td><td class="n">8</td><td class="n">2</td><td class="n">+6</td><td class="n">118</td></tr>
+<tr><td class="n">20</td><td class=""><code>energysolutions</code></td><td class="">greenhouse</td><td class="n">12</td><td class="n">7</td><td class="n">1</td><td class="n">+6</td><td class="n">18</td></tr>
+<tr><td class="n">21</td><td class=""><code>fanaticscollectibles</code></td><td class="">greenhouse</td><td class="n">149</td><td class="n">12</td><td class="n">7</td><td class="n">+5</td><td class="n">154</td></tr>
+<tr><td class="n">22</td><td class=""><code>octoenergy</code></td><td class="">lever</td><td class="n">133</td><td class="n">12</td><td class="n">7</td><td class="n">+5</td><td class="n">138</td></tr>
+<tr><td class="n">23</td><td class=""><code>deliveroo</code></td><td class="">ashby</td><td class="n">183</td><td class="n">9</td><td class="n">4</td><td class="n">+5</td><td class="n">188</td></tr>
+<tr><td class="n">24</td><td class=""><code>mistral.ai</code></td><td class="">ashby</td><td class="n">168</td><td class="n">8</td><td class="n">3</td><td class="n">+5</td><td class="n">173</td></tr>
+<tr><td class="n">25</td><td class=""><code>alpaca</code></td><td class="">greenhouse</td><td class="n">65</td><td class="n">8</td><td class="n">3</td><td class="n">+5</td><td class="n">70</td></tr>
+<tr><td class="n">26</td><td class=""><code>eightsleep</code></td><td class="">ashby</td><td class="n">51</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">56</td></tr>
+<tr><td class="n">27</td><td class=""><code>faire</code></td><td class="">greenhouse</td><td class="n">62</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">67</td></tr>
+<tr><td class="n">28</td><td class=""><code>flexport</code></td><td class="">greenhouse</td><td class="n">160</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">165</td></tr>
+<tr><td class="n">29</td><td class=""><code>hudl</code></td><td class="">greenhouse</td><td class="n">26</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">31</td></tr>
+<tr><td class="n">30</td><td class=""><code>mendix</code></td><td class="">lever</td><td class="n">35</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">40</td></tr>
+<tr><td class="n">31</td><td class=""><code>nerdio-careers</code></td><td class="">rippling</td><td class="n">19</td><td class="n">5</td><td class="n">0</td><td class="n">+5</td><td class="n">24</td></tr>
+<tr><td class="n">32</td><td class=""><code>accenturefederalservices</code></td><td class="">greenhouse</td><td class="n">638</td><td class="n">30</td><td class="n">26</td><td class="n">+4</td><td class="n">642</td></tr>
+<tr><td class="n">33</td><td class=""><code>boxinc</code></td><td class="">greenhouse</td><td class="n">137</td><td class="n">8</td><td class="n">4</td><td class="n">+4</td><td class="n">141</td></tr>
+<tr><td class="n">34</td><td class=""><code>benchling</code></td><td class="">ashby</td><td class="n">55</td><td class="n">6</td><td class="n">2</td><td class="n">+4</td><td class="n">59</td></tr>
+<tr><td class="n">35</td><td class=""><code>coherehealth</code></td><td class="">greenhouse</td><td class="n">73</td><td class="n">6</td><td class="n">2</td><td class="n">+4</td><td class="n">77</td></tr>
+<tr><td class="n">36</td><td class=""><code>figma</code></td><td class="">greenhouse</td><td class="n">159</td><td class="n">6</td><td class="n">2</td><td class="n">+4</td><td class="n">163</td></tr>
+<tr><td class="n">37</td><td class=""><code>apexcompanies</code></td><td class="">greenhouse</td><td class="n">181</td><td class="n">5</td><td class="n">1</td><td class="n">+4</td><td class="n">185</td></tr>
+<tr><td class="n">38</td><td class=""><code>filevine</code></td><td class="">lever</td><td class="n">130</td><td class="n">5</td><td class="n">1</td><td class="n">+4</td><td class="n">134</td></tr>
+<tr><td class="n">39</td><td class=""><code>pariveda</code></td><td class="">ashby</td><td class="n">24</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">28</td></tr>
+<tr><td class="n">40</td><td class=""><code>charlesriverassociates</code></td><td class="">greenhouse</td><td class="n">73</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">77</td></tr>
+<tr><td class="n">41</td><td class=""><code>everlaw</code></td><td class="">greenhouse</td><td class="n">29</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">33</td></tr>
+<tr><td class="n">42</td><td class=""><code>formic</code></td><td class="">greenhouse</td><td class="n">34</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">38</td></tr>
+<tr><td class="n">43</td><td class=""><code>instawork</code></td><td class="">greenhouse</td><td class="n">52</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">56</td></tr>
+<tr><td class="n">44</td><td class=""><code>tracktik</code></td><td class="">lever</td><td class="n">11</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">15</td></tr>
+<tr><td class="n">45</td><td class=""><code>apexanalytix-careers</code></td><td class="">rippling</td><td class="n">26</td><td class="n">4</td><td class="n">0</td><td class="n">+4</td><td class="n">30</td></tr>
+<tr><td class="n">46</td><td class=""><code>elevenlabs</code></td><td class="">ashby</td><td class="n">247</td><td class="n">9</td><td class="n">6</td><td class="n">+3</td><td class="n">250</td></tr>
+<tr><td class="n">47</td><td class=""><code>celonis</code></td><td class="">greenhouse</td><td class="n">276</td><td class="n">8</td><td class="n">5</td><td class="n">+3</td><td class="n">279</td></tr>
+<tr><td class="n">48</td><td class=""><code>3pillarglobal</code></td><td class="">lever</td><td class="n">54</td><td class="n">7</td><td class="n">4</td><td class="n">+3</td><td class="n">57</td></tr>
+<tr><td class="n">49</td><td class=""><code>sunsrce</code></td><td class="">lever</td><td class="n">273</td><td class="n">7</td><td class="n">4</td><td class="n">+3</td><td class="n">276</td></tr>
+<tr><td class="n">50</td><td class=""><code>applied</code></td><td class="">ashby</td><td class="n">297</td><td class="n">6</td><td class="n">3</td><td class="n">+3</td><td class="n">300</td></tr>
+</tbody></table></div>
+
+<h2 id="cite">How to cite</h2>
+<p>The page and the data behind it are public domain (CC0 1.0). Cite the page by its
+canonical URL and the date range, and the file by its raw URL — the file is rebuilt daily,
+so a copy in your own archive is the only stable reference.</p>
+<pre><code>hiring-closures, "Which companies are closing job postings fastest", 2026-08-27 to 2026-08-29.
+https://moonie0201.github.io/hiring-closures/closing-fastest.html
+Data: https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv (CC0 1.0)</code></pre>
+<p class="small muted">To resolve a slug to a company name, use the CC0 directory at
+<a href="https://github.com/moonie0201/ats-directory">moonie0201/ats-directory</a>.</p>
+
+<footer>
+<div class="disclaimer">
+<p><strong>Independent.</strong> This is an independent dataset. We are not affiliated with,
+endorsed by, or connected to Greenhouse, Lever, Ashby, Recruitee, Rippling, Personio, or any
+employer named in it. All trademarks belong to their owners.</p>
+<p><strong>What a <code>removed</code> record means.</strong> A job posting that was returned
+by a company's public careers API on one day was no longer returned on a later day. It is not
+a statement that anyone was hired, that a role was cancelled, or that anyone lost a job.
+Postings also stop being returned for reasons we cannot observe, including reposting under a
+new ID, board migrations, and provider outages.</p>
+<p><strong>A board's first observed day is a baseline, not hiring.</strong> The first time we
+see a board, every posting on it is new to the dataset. That day is published with
+<code>added</code> empty, and nothing on this site sums it as growth. The first day with
+complete snapshots on both sides of the diff is 2026-08-28.</p>
+<p><strong>No job advertisement text, ever.</strong> The body of a job ad is the employer's
+own copyrighted work; it is never stored, reproduced, excerpted or summarised, in any tier.
+The free file carries no free text at all — no titles, no locations, no URLs.</p>
+<p><a href="https://github.com/moonie0201/hiring-closures">Repository</a> ·
+<a href="https://github.com/moonie0201/ats-directory">Company → ATS directory (CC0)</a> ·
+<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> ·
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a></p>
+</div>
+</footer>
+</body>
+</html>

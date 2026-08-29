@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moonie0201.github.io/hiring-closures/sitemap.xml

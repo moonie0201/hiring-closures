@@ -1,116 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hiring-closures — when job postings disappear</title>
-<meta name="description" content="A daily record of when job postings stop being returned by company careers APIs. 1,574 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour sample under CC0.">
-<link rel="canonical" href="https://moonie0201.github.io/hiring-closures/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="hiring-closures">
-<meta property="og:title" content="hiring-closures — when job postings disappear">
-<meta property="og:description" content="A daily record of when job postings stop being returned by company careers APIs. 1,574 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour sample under CC0.">
-<meta property="og:url" content="https://moonie0201.github.io/hiring-closures/">
-<link rel="stylesheet" href="style.css">
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "Dataset",
- "creator": {
-  "@type": "Organization",
-  "name": "hiring-closures",
-  "url": "https://github.com/moonie0201/hiring-closures"
- },
- "dateModified": "2026-08-29",
- "description": "One row per company per day: how many job postings each company's public careers API returned (open), how many were first seen that day (added) and how many returned on a previous day were no longer returned (removed). 1,574 company boards on six ATS platforms (Greenhouse, Lever, Ashby, Recruitee, Rippling; Personio in paid tiers only), observed daily since 2026-08-26. The free file is the last 72 hours, six aggregate columns, no job titles, no URLs, no advertisement text, rebuilt daily and dedicated to the public domain under CC0 1.0. A removed record means a posting stopped being returned by the API; it says nothing about hires, cancellations or people.",
- "distribution": [
-  {
-   "@type": "DataDownload",
-   "contentUrl": "https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv",
-   "encodingFormat": "text/csv"
-  },
-  {
-   "@type": "DataDownload",
-   "contentUrl": "https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.jsonl",
-   "encodingFormat": "application/x-ndjson"
-  }
- ],
- "identifier": "https://github.com/moonie0201/hiring-closures",
- "isAccessibleForFree": true,
- "keywords": [
-  "job postings",
-  "hiring",
-  "job posting closures",
-  "applicant tracking systems",
-  "labour market",
-  "Greenhouse",
-  "Lever",
-  "Ashby",
-  "Recruitee",
-  "Rippling"
- ],
- "license": "https://creativecommons.org/publicdomain/zero/1.0/",
- "measurementTechnique": "Daily snapshot of each employer's public ATS careers API, diffed against the previous snapshot; added and removed are counts of posting IDs that appeared or disappeared between the two.",
- "name": "hiring-closures: daily job-posting closures across company careers boards",
- "sameAs": "https://github.com/moonie0201/hiring-closures",
- "temporalCoverage": "2026-08-27/2026-08-29",
- "url": "https://moonie0201.github.io/hiring-closures/",
- "variableMeasured": [
-  {
-   "@type": "PropertyValue",
-   "description": "observation date, UTC",
-   "name": "d"
-  },
-  {
-   "@type": "PropertyValue",
-   "description": "ATS platform: greenhouse, lever, ashby, recruitee, rippling",
-   "name": "provider"
-  },
-  {
-   "@type": "PropertyValue",
-   "description": "the ATS board slug, verbatim",
-   "name": "company"
-  },
-  {
-   "@type": "PropertyValue",
-   "description": "postings the board returned that day",
-   "name": "open"
-  },
-  {
-   "@type": "PropertyValue",
-   "description": "postings first seen that day; empty on a board's first observed day",
-   "name": "added"
-  },
-  {
-   "@type": "PropertyValue",
-   "description": "postings returned on a previous day and not returned that day",
-   "name": "removed"
-  }
- ]
-}
-</script>
-</head>
-<body>
-<nav><a href="./" aria-current="page">Home</a> · <a href="closing-fastest.html">Closing fastest</a> · <a href="calendar.html">Calendar</a> · <a href="https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv">CSV</a> · <a href="https://github.com/moonie0201/hiring-closures">Repository</a></nav>
 <h1>hiring-closures</h1>
 <p class="lede"><strong>When job postings disappear.</strong> A daily record of how many
 postings each company opened, held and stopped showing, across 1,574 company boards on six
 ATS platforms. Most job-data products tell you what is open. This one tells you what
 closed.</p>
 
-<section class="stats" aria-label="Latest measured day">
-<p class="small muted">Latest measured day, <strong>2026-08-29</strong>, five-provider free file</p>
-<dl>
-<div><dt>Postings opened</dt><dd>901</dd></div>
-<div><dt>Postings closed</dt><dd>855</dd></div>
-<div><dt>Net</dt><dd>+46</dd></div>
-<div><dt>Boards measured</dt><dd>1,367</dd></div>
-</dl>
-<p class="small muted">54,780 postings open across those boards. Opened, closed
-and net sum only boards with a previous-day snapshot.
-<a href="closing-fastest.html">Which companies are closing fastest</a> ·
-<a href="calendar.html">every day on record</a>.</p>
-</section>
+<!--HEADLINE-->
 
 <p>Collection started <strong>2026-08-26</strong>. Every day since is stored, and no earlier
 day exists anywhere. 2026-08-26 covers one of the four shards (385 boards); full-watchlist
@@ -414,29 +308,3 @@ Governing law: Republic of Korea.</p>
 of record has been set up. There is no card checkout, no payment link, and no self-serve
 signup. When a payment method exists it will be stated here and not before.</p>
 
-
-<footer>
-<div class="disclaimer">
-<p><strong>Independent.</strong> This is an independent dataset. We are not affiliated with,
-endorsed by, or connected to Greenhouse, Lever, Ashby, Recruitee, Rippling, Personio, or any
-employer named in it. All trademarks belong to their owners.</p>
-<p><strong>What a <code>removed</code> record means.</strong> A job posting that was returned
-by a company's public careers API on one day was no longer returned on a later day. It is not
-a statement that anyone was hired, that a role was cancelled, or that anyone lost a job.
-Postings also stop being returned for reasons we cannot observe, including reposting under a
-new ID, board migrations, and provider outages.</p>
-<p><strong>A board's first observed day is a baseline, not hiring.</strong> The first time we
-see a board, every posting on it is new to the dataset. That day is published with
-<code>added</code> empty, and nothing on this site sums it as growth. The first day with
-complete snapshots on both sides of the diff is 2026-08-28.</p>
-<p><strong>No job advertisement text, ever.</strong> The body of a job ad is the employer's
-own copyrighted work; it is never stored, reproduced, excerpted or summarised, in any tier.
-The free file carries no free text at all — no titles, no locations, no URLs.</p>
-<p><a href="https://github.com/moonie0201/hiring-closures">Repository</a> ·
-<a href="https://github.com/moonie0201/ats-directory">Company → ATS directory (CC0)</a> ·
-<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> ·
-<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a></p>
-</div>
-</footer>
-</body>
-</html>

@@ -1,4 +1,5 @@
-# Rebuilds the free 72-hour sample and commits it. No human in the loop.
+# Rebuilds the free 72-hour sample, regenerates the site in docs/, and commits both. No
+# human in the loop.
 #
 # Runs at 05:30 UTC, after the last collection shard finishes at 04:15 UTC.
 #
@@ -96,14 +97,20 @@ jobs:
             *) echo "stale sample: newest day is $newest"; exit 1 ;;
           esac
 
+      # Pages serves docs/ as-is. The generator is stdlib-only, reads nothing but the CSV,
+      # docs/daily.jsonl (the calendar's own day-by-day record) and the blocklist, and is
+      # deterministic, so an unchanged sample leaves docs/ byte-identical.
+      - name: Rebuild the site
+        run: python site/build.py --blocklist _src/ats-directory/blocklist.txt
+
       - name: Commit when the content changed
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet -- data/; then
+          if git diff --quiet -- data/ docs/ && [ -z "$(git ls-files --others --exclude-standard docs/)" ]; then
             echo "no change"
             exit 0
           fi
-          git add data/
+          git add data/ docs/
           git commit -m "data: refresh 72h closure sample ($(date -u +%F))"
           git push
