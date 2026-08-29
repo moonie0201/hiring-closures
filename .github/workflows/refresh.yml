@@ -114,3 +114,16 @@ jobs:
           git add data/ docs/
           git commit -m "data: refresh 72h closure sample ($(date -u +%F))"
           git push
+          echo "changed=1" >> "$GITHUB_OUTPUT"
+        id: commit
+
+      # IndexNow (Bing, Yandex, Naver) — tell the engines the three pages changed. The key
+      # file lives in docs/ and is served by Pages; a failed ping costs nothing.
+      - name: Ping IndexNow
+        if: steps.commit.outputs.changed == '1'
+        run: |
+          key=993ffad3860ad1e9d6d9213582d30871
+          base=https://moonie0201.github.io/hiring-closures
+          curl -sS -o /dev/null -w "indexnow %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"moonie0201.github.io\",\"key\":\"$key\",\"keyLocation\":\"$base/$key.txt\",\"urlList\":[\"$base/\",\"$base/closing-fastest.html\",\"$base/calendar.html\",\"$base/sitemap.xml\"]}" || true
