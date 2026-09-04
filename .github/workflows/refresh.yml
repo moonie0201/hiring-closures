@@ -1,7 +1,7 @@
 # Rebuilds the free 72-hour sample, regenerates the site in docs/, and commits both. No
 # human in the loop.
 #
-# Runs at 05:30 UTC, after the last collection shard finishes at 04:15 UTC.
+# Runs at 16:40 UTC, after the last collection shard finishes at ~16:07 UTC.
 #
 # The exporter lives in moonie0201/ats-jobs (`scripts/export_closures.py`) and resolves the
 # takedown blocklist as `<its repo's parent>/ats-directory/blocklist.txt`, so both repos are
@@ -18,7 +18,12 @@ name: refresh free sample
 
 on:
   schedule:
-    - cron: '30 5 * * *'
+    # 16:40 UTC, not 05:30. The snapshot sweep runs 03:00-15:55 UTC across 32 staggered
+    # shards, so an export at 05:30 caught 7 of 30 completed shards on 2026-09-04 and
+    # published that day as 5,701 boards when the full sweep covers 14,243. A partial day
+    # is worse than a missing one here: it looks like data and reads as a hiring collapse.
+    # Keep this behind the last shard (15:55 + its ~12 min run) whenever the stagger moves.
+    - cron: '40 16 * * *'
   workflow_dispatch:
 
 permissions:
@@ -89,8 +94,8 @@ jobs:
           # The exporter emits the last 3 days *present in the store*, not the last 3
           # calendar days. If collection dies, it reproduces yesterday's bytes exactly, the
           # commit step sees no diff, and the job stays green while the sample silently
-          # ages. Collection's last shard lands 04:15 UTC and this runs 05:30, so today is
-          # the normal case and yesterday is the tolerance.
+          # ages. Collection's last shard lands ~16:07 UTC and this runs 16:40, so today
+          # is the normal case and yesterday is the tolerance.
           newest=$(tail -n +2 "$out" | cut -d, -f1 | sort | tail -1)
           case "$newest" in
             "$(date -u +%F)"|"$(date -u -d yesterday +%F)") ;;

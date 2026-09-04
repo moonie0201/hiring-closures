@@ -1,7 +1,7 @@
 # hiring-closures
 
 **When job postings disappear.** A daily record of how many postings each company opened,
-held and stopped showing, across 1,574 company boards on six ATS platforms.
+held and stopped showing, across 14,243 company boards on six ATS platforms.
 
 Most job-data products tell you what is open. This one tells you what closed. Collection
 started **2026-08-26**; every day since is stored and no earlier day exists anywhere.
@@ -252,11 +252,21 @@ the same canonical posting (title, location, department, remote) is still open u
 different ID, `days_open` on the removal is withheld rather than counted as a closure
 duration. The `removed` event is still emitted.
 
-**Coverage is the watchlist, not the labour market.** 1,574 company boards that publish
-through one of six ATS platforms and had at least one posting when the watchlist was seeded
-(ashby 381, greenhouse 364, lever 309, personio 202, recruitee 174, rippling 144); 1,570 of
-them answered on 2026-08-28 across all six providers, of which 1,368 are in the
-five-provider free file. It is not a census of anything.
+**Coverage is the watchlist, not the labour market.** The watchlist was seeded with 1,574
+hand-picked boards (ashby 381, greenhouse 364, lever 309, personio 202, recruitee 174,
+rippling 144), of which 1,570 answered on 2026-08-28 and 1,368 reached the five-provider
+free file.
+
+On **2026-09-04** it was widened to **14,243 boards** (greenhouse 5,015, ashby 2,977, lever
+2,017, personio 2,080, rippling 1,356, recruitee 798) using the MIT-licensed company roster
+published by [kalil0321/ats-scrapers](https://github.com/kalil0321/ats-scrapers). A slug is
+a fact about which board a company publishes on; every posting is still fetched from the
+provider here. Each of the 16,286 candidates was probed once before being added and only
+the 12,669 that carried at least one posting were kept — 2,477 answered with an empty board
+and 1,140 were dead.
+
+Days before 2026-09-04 therefore cover the smaller watchlist, and a jump in `open` on that
+date is this expansion rather than the labour market. It is not a census of anything.
 
 **Recruitee's careers-site API requires an authorization token from 10 February 2027.**
 Recruitee coverage after that date depends on a migration to the XML offer feed that is
@@ -326,8 +336,9 @@ trademarks belong to their owners.
 
 ## How the free file stays current
 
-`.github/workflows/refresh.yml` runs daily at 05:30 UTC — after the last collection shard
-finishes at 04:15 UTC — regenerates both files in `data/sample/`, and commits them only
+`.github/workflows/refresh.yml` runs daily at 16:40 UTC — after the last of the 32
+collection shards finishes at ~16:07 UTC — regenerates both files in `data/sample/`, and
+commits them only
 when the content changed. It then runs `site/build.py` (stdlib only, deterministic) and
 commits `docs/` with the sample. No human is in the loop.
 

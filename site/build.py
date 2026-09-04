@@ -317,7 +317,7 @@ def dataset_jsonld(days: list[str]) -> str:
         "description": (
             "One row per company per day: how many job postings each company's public "
             "careers API returned (open), how many were first seen that day (added) and how "
-            "many returned on a previous day were no longer returned (removed). 1,574 "
+            "many returned on a previous day were no longer returned (removed). 14,243 "
             "company boards on six ATS platforms (Greenhouse, Lever, Ashby, Recruitee, "
             "Rippling; Personio in paid tiers only), observed daily since 2026-08-26. The "
             "free file is the last 72 hours, six aggregate columns, no job titles, no URLs, "
@@ -410,7 +410,7 @@ def index_page(latest: dict, days: list[str]) -> str:
         "index.html",
         "hiring-closures — when job postings disappear",
         "A daily record of when job postings stop being returned by company careers APIs. "
-        "1,574 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour "
+        "14,243 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour "
         "sample under CC0.",
         body,
         head=dataset_jsonld(days),
