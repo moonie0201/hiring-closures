@@ -16,6 +16,7 @@ import argparse
 import csv
 import html
 import json
+import re
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -43,7 +44,17 @@ PAGES = [  # (file, nav label)
     ("index.html", "Home"),
     ("closing-fastest.html", "Closing fastest"),
     ("calendar.html", "Calendar"),
+    ("export.html", "Full export"),
 ]
+
+#: Where the paid export's coverage table comes from. `scripts/bundle_export.py` in
+#: ats-jobs writes it next to the bundle; this file is a committed copy of that schema.md
+#: so the page never claims coverage the bundle does not have.
+EXPORT_SCHEMA = Path(__file__).resolve().parent / "export-schema.md"
+#: Checkout link. Empty until the Polar product exists; the page then shows "not yet on
+#: sale" rather than a dead button.
+CHECKOUT_URL = ""
+EXPORT_PRICE = "$49"
 
 esc = html.escape
 
@@ -604,6 +615,73 @@ counts toward boards measured only.</p>
     )
 
 
+def md_tables_to_html(md: str) -> str:
+    """The subset of Markdown `schema.md` uses: `#`/`##` headings, paragraphs, pipe tables."""
+    out, table = [], []
+
+    def flush() -> None:
+        if not table:
+            return
+        head, *rows = [r for r in table if not set(r) <= set("|-: ")]
+        cells = lambda r: [esc(c.strip()) for c in r.strip("|").split("|")]
+        out.append("<table><thead><tr>" + "".join(f"<th>{c}</th>" for c in cells(head)) + "</tr></thead><tbody>")
+        for r in rows:
+            out.append("<tr>" + "".join(f"<td>{c}</td>" for c in cells(r)) + "</tr>")
+        out.append("</tbody></table>")
+        table.clear()
+
+    for line in md.splitlines():
+        if line.startswith("|"):
+            table.append(line)
+            continue
+        flush()
+        if line.startswith("## "):
+            out.append(f"<h2>{esc(line[3:])}</h2>")
+        elif line.startswith("# "):
+            continue  # page supplies its own h1
+        elif line.strip():
+            out.append(f"<p>{re.sub(r'`([^`]+)`', r'<code>\\1</code>', esc(line))}</p>")
+    flush()
+    return "\n".join(out)
+
+
+def export_page() -> str:
+    schema = EXPORT_SCHEMA.read_text(encoding="utf-8") if EXPORT_SCHEMA.exists() else ""
+    cutoff = re.search(r"observations-(\d{4}-\d{2}-\d{2})", schema)
+    cutoff = cutoff.group(1) if cutoff else "—"
+    buy = (
+        f'<p class="buy"><a class="button" href="{esc(CHECKOUT_URL)}">Buy the export — {EXPORT_PRICE}, one-time</a></p>'
+        if CHECKOUT_URL
+        else '<p class="buy">Not on sale yet. The file exists; the checkout does not. Check back.</p>'
+    )
+    body = f"""<h1>Full observation export</h1>
+<p>The free files on this site are <em>counts</em>: how many postings each company board opened
+and closed per day. This is the posting-level record behind them — one row per event per posting,
+to <strong>{esc(cutoff)}</strong> — as a single gzipped CSV (and the same rows as JSON Lines) with the
+coverage table below shipped inside it.</p>
+<p>Read the coverage table before the price. Most boards have been observed for days, not months.</p>
+{md_tables_to_html(schema)}
+<h2>Price</h2>
+<p>{EXPORT_PRICE} one-time for the dated file above. No subscription. If you want fresh data on a
+schedule, say so after buying and a recurring option will be quoted; it is not sold blind.</p>
+{buy}
+<h2>Licence</h2>
+<p>The rows are facts about public postings; no database right is claimed in them. Internal use and
+derived analysis are fine. Redistribution of the raw rows in whole or substantial part is not
+licensed. Personio boards are excluded from every public or sold artefact under that platform's
+marketplace terms. No personal data is included.</p>
+<p>Refunds: if the file does not match the coverage table, full refund. Questions are answered
+within 48 hours.</p>
+"""
+    return page(
+        "export.html",
+        "Full observation export — hiring-closures",
+        f"Posting-level observation events for public ATS job boards to {cutoff}: added, removed, "
+        "changed, with the board's own posted date. One dated file, coverage shown before the price.",
+        body,
+    )
+
+
 def sitemap(lastmod: str) -> str:
     urls = "".join(
         f"  <url><loc>{url_of(f)}</loc><lastmod>{lastmod}</lastmod></url>\n"
@@ -631,6 +709,7 @@ def build(blocklist: Path | None = None) -> None:
         "index.html": index_page(latest, days),
         "closing-fastest.html": closing_page(window(rows), days),
         "calendar.html": calendar_page(history, set(days)),
+        "export.html": export_page(),
         "daily.jsonl": "".join(json.dumps(e, sort_keys=True) + "\n" for e in history),
         "sitemap.xml": sitemap(history[-1]["d"]),
         "robots.txt": f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n",

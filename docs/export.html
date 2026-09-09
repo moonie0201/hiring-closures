@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full observation export — hiring-closures</title>
+<meta name="description" content="Posting-level observation events for public ATS job boards to 2026-09-09: added, removed, changed, with the board&#x27;s own posted date. One dated file, coverage shown before the price.">
+<link rel="canonical" href="https://moonie0201.github.io/hiring-closures/export.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="hiring-closures">
+<meta property="og:title" content="Full observation export — hiring-closures">
+<meta property="og:description" content="Posting-level observation events for public ATS job boards to 2026-09-09: added, removed, changed, with the board&#x27;s own posted date. One dated file, coverage shown before the price.">
+<meta property="og:url" content="https://moonie0201.github.io/hiring-closures/export.html">
+<link rel="stylesheet" href="style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3G87HK9EL5"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-3G87HK9EL5', {
+  'client_storage': 'none',
+  'allow_google_signals': false,
+  'allow_ad_personalization_signals': false,
+  'anonymize_ip': true
+});
+</script>
+</head>
+<body>
+<nav><a href="./">Home</a> · <a href="closing-fastest.html">Closing fastest</a> · <a href="calendar.html">Calendar</a> · <a href="export.html" aria-current="page">Full export</a> · <a href="https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv">CSV</a> · <a href="https://github.com/moonie0201/hiring-closures">Repository</a></nav>
+<h1>Full observation export</h1>
+<p>The free files on this site are <em>counts</em>: how many postings each company board opened
+and closed per day. This is the posting-level record behind them — one row per event per posting,
+to <strong>2026-09-09</strong> — as a single gzipped CSV (and the same rows as JSON Lines) with the
+coverage table below shipped inside it.</p>
+<p>Read the coverage table before the price. Most boards have been observed for days, not months.</p>
+<p>Rows: **389,845** events over **12,130** boards, 2026-08-26 → 2026-09-09 (UTC). Personio rows excluded: 12,917.</p>
+<h2>Coverage</h2>
+<table><thead><tr><th>provider</th><th>events</th></tr></thead><tbody>
+<tr><td>greenhouse</td><td>206,423</td></tr>
+<tr><td>lever</td><td>86,979</td></tr>
+<tr><td>ashby</td><td>62,430</td></tr>
+<tr><td>recruitee</td><td>17,893</td></tr>
+<tr><td>rippling</td><td>16,120</td></tr>
+</tbody></table>
+<table><thead><tr><th>event</th><th>rows</th></tr></thead><tbody>
+<tr><td>added</td><td>358,761</td></tr>
+<tr><td>removed</td><td>25,281</td></tr>
+<tr><td>changed</td><td>5,803</td></tr>
+</tbody></table>
+<p>Boards by the day observation began (<code>\1</code>). A posting already open on that day carries a first-seen date that is a floor, not an age:</p>
+<table><thead><tr><th>tracked_since</th><th>boards</th></tr></thead><tbody>
+<tr><td>2026-08-26</td><td>338</td></tr>
+<tr><td>2026-08-27</td><td>1,033</td></tr>
+<tr><td>2026-09-04</td><td>10,759</td></tr>
+</tbody></table>
+<p>Events per observation day. A day with few rows is a day on which few boards were measured, not a quiet day; absent company-days are absent, never zero:</p>
+<table><thead><tr><th>day</th><th>events</th></tr></thead><tbody>
+<tr><td>2026-08-26</td><td>14,797</td></tr>
+<tr><td>2026-08-27</td><td>40,066</td></tr>
+<tr><td>2026-08-28</td><td>3,442</td></tr>
+<tr><td>2026-08-29</td><td>1,952</td></tr>
+<tr><td>2026-08-30</td><td>135</td></tr>
+<tr><td>2026-08-31</td><td>373</td></tr>
+<tr><td>2026-09-01</td><td>2,341</td></tr>
+<tr><td>2026-09-02</td><td>2,573</td></tr>
+<tr><td>2026-09-03</td><td>2,626</td></tr>
+<tr><td>2026-09-04</td><td>281,360</td></tr>
+<tr><td>2026-09-05</td><td>11,007</td></tr>
+<tr><td>2026-09-06</td><td>1,133</td></tr>
+<tr><td>2026-09-07</td><td>3,880</td></tr>
+<tr><td>2026-09-08</td><td>9,327</td></tr>
+<tr><td>2026-09-09</td><td>14,833</td></tr>
+</tbody></table>
+<p><code>\1</code> on <code>\1</code> rows (Greenhouse/Lever single-posting endpoint also 404):</p>
+<table><thead><tr><th>verified</th><th>rows</th></tr></thead><tbody>
+<tr><td>True</td><td>17,807</td></tr>
+<tr><td>None</td><td>7,474</td></tr>
+</tbody></table>
+<h2>Schema</h2>
+<table><thead><tr><th>field</th><th>meaning</th></tr></thead><tbody>
+<tr><td>`d`</td><td>observation day, UTC</td></tr>
+<tr><td>`provider`</td><td>greenhouse · lever · ashby · recruitee · rippling</td></tr>
+<tr><td>`company`</td><td>board slug as in the public URL</td></tr>
+<tr><td>`job_id`</td><td>the board API&#x27;s own id</td></tr>
+<tr><td>`ev`</td><td>`added` (first seen) · `removed` (no longer served) · `changed`</td></tr>
+<tr><td>`t`, `loc`, `dept`</td><td>title, location, department as published</td></tr>
+<tr><td>`url`</td><td>public posting URL</td></tr>
+<tr><td>`posted`</td><td>the board&#x27;s own posted date, where published</td></tr>
+<tr><td>`verified`</td><td>removed rows only: true / false / null (see above)</td></tr>
+</tbody></table>
+<h2>What this is not</h2>
+<p>Not a claim that a role was filled, cancelled or fake. Not complete history: observation starts at <code>\1</code>. Not a feed: a dated snapshot to the cutoff. No personal data.</p>
+<h2>Price</h2>
+<p>$49 one-time for the dated file above. No subscription. If you want fresh data on a
+schedule, say so after buying and a recurring option will be quoted; it is not sold blind.</p>
+<p class="buy">Not on sale yet. The file exists; the checkout does not. Check back.</p>
+<h2>Licence</h2>
+<p>The rows are facts about public postings; no database right is claimed in them. Internal use and
+derived analysis are fine. Redistribution of the raw rows in whole or substantial part is not
+licensed. Personio boards are excluded from every public or sold artefact under that platform's
+marketplace terms. No personal data is included.</p>
+<p>Refunds: if the file does not match the coverage table, full refund. Questions are answered
+within 48 hours.</p>
+
+<footer>
+<div class="disclaimer">
+<p><strong>Independent.</strong> This is an independent dataset. We are not affiliated with,
+endorsed by, or connected to Greenhouse, Lever, Ashby, Recruitee, Rippling, Personio, or any
+employer named in it. All trademarks belong to their owners.</p>
+<p><strong>What a <code>removed</code> record means.</strong> A job posting that was returned
+by a company's public careers API on one day was no longer returned on a later day. It is not
+a statement that anyone was hired, that a role was cancelled, or that anyone lost a job.
+Postings also stop being returned for reasons we cannot observe, including reposting under a
+new ID, board migrations, and provider outages.</p>
+<p><strong>A board's first observed day is a baseline, not hiring.</strong> The first time we
+see a board, every posting on it is new to the dataset. That day is published with
+<code>added</code> empty, and nothing on this site sums it as growth. The first day with
+complete snapshots on both sides of the diff is 2026-08-28.</p>
+<p><strong>No job advertisement text, ever.</strong> The body of a job ad is the employer's
+own copyrighted work; it is never stored, reproduced, excerpted or summarised, in any tier.
+The free file carries no free text at all — no titles, no locations, no URLs.</p>
+<p><strong>Measurement.</strong> Page views are counted with Google Analytics in a
+cookieless configuration: no analytics cookie is set, no client identifier is stored, IP
+addresses are anonymised, and advertising features are off. The only purpose is to see which
+pages are read and where readers arrive from.</p>
+<p><a href="https://github.com/moonie0201/hiring-closures">Repository</a> ·
+<a href="https://github.com/moonie0201/ats-directory">Company → ATS directory (CC0)</a> ·
+<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a> ·
+<a href="mailto:mooniegilog@gmail.com">mooniegilog@gmail.com</a></p>
+</div>
+</footer>
+</body>
+</html>
