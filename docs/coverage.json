@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source": "https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv",
+  "source_sha256": "ea426d718a4f47035e4a46bc32a1355320b775a1004e458a90820a04c9f728d6",
+  "observation_timezone": "UTC",
+  "first_day": "2026-09-29",
+  "latest_day": "2026-10-01",
+  "observed_days": 3,
+  "row_count": 35716,
+  "board_count": 12038,
+  "coverage": [
+    {
+      "d": "2026-09-29",
+      "rows": 11987,
+      "boards": 11987,
+      "baseline_rows": 0,
+      "boards_by_provider": {
+        "ashby": 2944,
+        "greenhouse": 4950,
+        "lever": 1989,
+        "recruitee": 781,
+        "rippling": 1323
+      }
+    },
+    {
+      "d": "2026-09-30",
+      "rows": 11782,
+      "boards": 11782,
+      "baseline_rows": 0,
+      "boards_by_provider": {
+        "ashby": 2893,
+        "greenhouse": 4863,
+        "lever": 1963,
+        "recruitee": 766,
+        "rippling": 1297
+      }
+    },
+    {
+      "d": "2026-10-01",
+      "rows": 11947,
+      "boards": 11947,
+      "baseline_rows": 0,
+      "boards_by_provider": {
+        "ashby": 2934,
+        "greenhouse": 4930,
+        "lever": 1989,
+        "recruitee": 779,
+        "rippling": 1315
+      }
+    }
+  ],
+  "expected_board_count": null,
+  "missing_means": "unobserved, not zero; expected watchlist coverage is unknown",
+  "freshness": "Compare latest_day with your current UTC date; this file is not a live health check."
+}

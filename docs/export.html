@@ -33,6 +33,9 @@ and closed per day. This is the posting-level record behind them — one row per
 to <strong>2026-09-09</strong> — as a single gzipped CSV (and the same rows as JSON Lines) with the
 coverage table below shipped inside it.</p>
 <p>Read the coverage table before the price. Most boards have been observed for days, not months.</p>
+<p>This is a dated bundle. Its cutoff is independent of the free sample's latest date.
+Later free-sample observations do not extend this file. The coverage table describes the
+existing bundle, not a promise of current or uninterrupted delivery.</p>
 <p>Rows: **389,845** events over **12,130** boards, 2026-08-26 → 2026-09-09 (UTC). Personio rows excluded: 12,917.</p>
 <h2>Coverage</h2>
 <table><thead><tr><th>provider</th><th>events</th></tr></thead><tbody>
@@ -47,7 +50,7 @@ coverage table below shipped inside it.</p>
 <tr><td>removed</td><td>25,281</td></tr>
 <tr><td>changed</td><td>5,803</td></tr>
 </tbody></table>
-<p>Boards by the day observation began (<code>\1</code>). A posting already open on that day carries a first-seen date that is a floor, not an age:</p>
+<p>Boards by the day observation began (<code>tracked_since</code>). A posting already open on that day carries a first-seen date that is a floor, not an age:</p>
 <table><thead><tr><th>tracked_since</th><th>boards</th></tr></thead><tbody>
 <tr><td>2026-08-26</td><td>338</td></tr>
 <tr><td>2026-08-27</td><td>1,033</td></tr>
@@ -71,7 +74,7 @@ coverage table below shipped inside it.</p>
 <tr><td>2026-09-08</td><td>9,327</td></tr>
 <tr><td>2026-09-09</td><td>14,833</td></tr>
 </tbody></table>
-<p><code>\1</code> on <code>\1</code> rows (Greenhouse/Lever single-posting endpoint also 404):</p>
+<p><code>verified</code> on <code>removed</code> rows (Greenhouse/Lever single-posting endpoint also 404):</p>
 <table><thead><tr><th>verified</th><th>rows</th></tr></thead><tbody>
 <tr><td>True</td><td>17,807</td></tr>
 <tr><td>None</td><td>7,474</td></tr>
@@ -89,11 +92,12 @@ coverage table below shipped inside it.</p>
 <tr><td>`verified`</td><td>removed rows only: true / false / null (see above)</td></tr>
 </tbody></table>
 <h2>What this is not</h2>
-<p>Not a claim that a role was filled, cancelled or fake. Not complete history: observation starts at <code>\1</code>. Not a feed: a dated snapshot to the cutoff. No personal data.</p>
+<p>Not a claim that a role was filled, cancelled or fake. Not complete history: observation starts at <code>tracked_since</code>. Not a feed: a dated snapshot to the cutoff. No personal data.</p>
 <h2>Price</h2>
 <p>$49 one-time for the dated file above. No subscription. If you want fresh data on a
-schedule, say so after buying and a recurring option will be quoted; it is not sold blind.</p>
-<p class="buy">Not on sale yet. The file exists; the checkout does not. Check back.</p>
+schedule, ask about required dates and providers before ordering. Recurring delivery needs
+an agreed scope; it is not included in this file.</p>
+<p class="buy">Not on sale yet. No checkout is available. For coverage questions, <a href="mailto:mooniegilog@gmail.com">email mooniegilog@gmail.com</a>.</p>
 <h2>Licence</h2>
 <p>The rows are facts about public postings; no database right is claimed in them. Internal use and
 derived analysis are fine. Redistribution of the raw rows in whole or substantial part is not

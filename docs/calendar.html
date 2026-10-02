@@ -32,8 +32,8 @@ gtag('config', 'G-3G87HK9EL5', {
 per day, from the first day of this record (2026-08-27; collection began
 2026-08-26) to the latest measured day (2026-10-01). Cells for the last 90
 days link to that day's top 10 closers and openers.</p>
-<p>The free file only ever holds the last 72 hours, so this page keeps its own record,
-<a href="daily.jsonl"><code>daily.jsonl</code></a>. Days still inside the 72-hour file are
+<p>The free file holds the last three available observation days, so this page keeps its own record,
+<a href="daily.jsonl"><code>daily.jsonl</code></a>. Days still inside the three-observation-day file are
 recomputed from it on every rebuild; days that have rolled out keep the totals they were
 built with, minus any company that has since asked to be removed from the top lists. Today
 it holds 36 days; it fills in one cell per day.

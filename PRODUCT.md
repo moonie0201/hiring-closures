@@ -29,7 +29,7 @@ Each row is one event for one posting on one day:
 | `provider` | greenhouse · lever · ashby · recruitee · rippling |
 | `company` | the board slug as it appears in the public URL |
 | `job_id` | the board API's own id for the posting |
-| `ev` | `added` (first seen) or `removed` (no longer served) |
+| `ev` | `added` (first seen), `removed` (no longer served), or `changed` (tracked fields changed) |
 | `t`, `loc`, `dept` | title, location, department as the board published them |
 | `url` | the public posting URL |
 | `posted` | the board's own posted date, where the board publishes one |
@@ -66,6 +66,7 @@ within 48 hours.
 2. Schema table (above).
 3. Five sample rows, real, with `company` and `url` intact.
 4. "What it is not" block, verbatim.
-5. Price and the Polar checkout button. One button. No tiers.
+5. Existing $49 one-time price and current availability. No checkout button until a
+   real, authorized checkout exists. The dated bundle is not on sale yet.
 6. Link to the free CC0 company-day aggregates, so the difference is visible: free =
    counts per company per day; paid = the posting-level events behind them.

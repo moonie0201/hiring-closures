@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import html
+import hashlib
 import json
 import re
 from datetime import date, timedelta
@@ -315,6 +316,8 @@ def headline(s: dict) -> str:
 </dl>
 <p class="small muted">{n(s["open"])} postings open across those boards{base}. Opened, closed
 and net sum only boards with a previous-day snapshot.
+Dates describe observations, not the time you downloaded this page. Missing company-days
+are unknown, never zero. <a href="coverage.json">Download observed coverage (JSON)</a>.
 <a href="closing-fastest.html">Which companies are closing fastest</a> ·
 <a href="calendar.html">every day on record</a>.</p>
 </section>"""
@@ -328,10 +331,10 @@ def dataset_jsonld(days: list[str]) -> str:
         "description": (
             "One row per company per day: how many job postings each company's public "
             "careers API returned (open), how many were first seen that day (added) and how "
-            "many returned on a previous day were no longer returned (removed). 14,243 "
-            "company boards on six ATS platforms (Greenhouse, Lever, Ashby, Recruitee, "
-            "Rippling; Personio in paid tiers only), observed daily since 2026-08-26. The "
-            "free file is the last 72 hours, six aggregate columns, no job titles, no URLs, "
+            "many returned on a previous day were no longer returned (removed). "
+            "Observed boards on five ATS platforms (Greenhouse, Lever, Ashby, Recruitee, "
+            "Rippling); coverage varies by day. Collection began 2026-08-26. The "
+            "free file holds the last three observation days, six aggregate columns, no job titles, no URLs, "
             "no advertisement text, rebuilt daily and dedicated to the public domain under "
             "CC0 1.0. A removed record means a posting stopped being returned by the API; it "
             "says nothing about hires, cancellations or people."
@@ -421,7 +424,7 @@ def index_page(latest: dict, days: list[str]) -> str:
         "index.html",
         "hiring-closures — when job postings disappear",
         "A daily record of when job postings stop being returned by company careers APIs. "
-        "14,243 company boards, six ATS platforms, daily since 2026-08-26. Free 72-hour "
+        "Observed company boards on five ATS platforms since 2026-08-26. Free three-day "
         "sample under CC0.",
         body,
         head=dataset_jsonld(days),
@@ -591,8 +594,8 @@ def calendar_page(history: list[dict], file_days: set[str]) -> str:
 per day, from the first day of this record ({history[0]["d"]}; collection began
 {COLLECTION_START}) to the latest measured day ({latest}). Cells for the last {DAY_SECTIONS}
 days link to that day's top {TOP_DAY} closers and openers.</p>
-<p>The free file only ever holds the last 72 hours, so this page keeps its own record,
-<a href="daily.jsonl"><code>daily.jsonl</code></a>. Days still inside the 72-hour file are
+<p>The free file holds the last three available observation days, so this page keeps its own record,
+<a href="daily.jsonl"><code>daily.jsonl</code></a>. Days still inside the three-observation-day file are
 recomputed from it on every rebuild; days that have rolled out keep the totals they were
 built with, minus any company that has since asked to be removed from the top lists. Today
 it holds {len(history)} day{"s" if len(history) != 1 else ""}; it fills in one cell per day.
@@ -640,7 +643,7 @@ def md_tables_to_html(md: str) -> str:
         elif line.startswith("# "):
             continue  # page supplies its own h1
         elif line.strip():
-            out.append(f"<p>{re.sub(r'`([^`]+)`', r'<code>\\1</code>', esc(line))}</p>")
+            out.append(f"<p>{re.sub(r'`([^`]+)`', r'<code>\1</code>', esc(line))}</p>")
     flush()
     return "\n".join(out)
 
@@ -652,7 +655,8 @@ def export_page() -> str:
     buy = (
         f'<p class="buy"><a class="button" href="{esc(CHECKOUT_URL)}">Buy the export — {EXPORT_PRICE}, one-time</a></p>'
         if CHECKOUT_URL
-        else '<p class="buy">Not on sale yet. The file exists; the checkout does not. Check back.</p>'
+        else '<p class="buy">Not on sale yet. No checkout is available. '
+        f'For coverage questions, <a href="mailto:{EMAIL}">email {EMAIL}</a>.</p>'
     )
     body = f"""<h1>Full observation export</h1>
 <p>The free files on this site are <em>counts</em>: how many postings each company board opened
@@ -660,10 +664,14 @@ and closed per day. This is the posting-level record behind them — one row per
 to <strong>{esc(cutoff)}</strong> — as a single gzipped CSV (and the same rows as JSON Lines) with the
 coverage table below shipped inside it.</p>
 <p>Read the coverage table before the price. Most boards have been observed for days, not months.</p>
+<p>This is a dated bundle. Its cutoff is independent of the free sample's latest date.
+Later free-sample observations do not extend this file. The coverage table describes the
+existing bundle, not a promise of current or uninterrupted delivery.</p>
 {md_tables_to_html(schema)}
 <h2>Price</h2>
 <p>{EXPORT_PRICE} one-time for the dated file above. No subscription. If you want fresh data on a
-schedule, say so after buying and a recurring option will be quoted; it is not sold blind.</p>
+schedule, ask about required dates and providers before ordering. Recurring delivery needs
+an agreed scope; it is not included in this file.</p>
 {buy}
 <h2>Licence</h2>
 <p>The rows are facts about public postings; no database right is claimed in them. Internal use and
@@ -697,6 +705,44 @@ def sitemap(lastmod: str) -> str:
 # --- main --------------------------------------------------------------------------
 
 
+def coverage_manifest(rows: list[dict], source_bytes: bytes) -> dict:
+    """Dated, deterministic coverage; never publish a cached 'fresh' assertion.
+
+    The digest binds metadata to the public CSV. A consumer should compare latest_day
+    to its UTC date, and check the digest if the CSV and manifest were fetched separately.
+    """
+    days = sorted({r["d"] for r in rows})
+    boards = {(r["provider"], r["company"]) for r in rows}
+    coverage = []
+    for d in days:
+        day = [r for r in rows if r["d"] == d]
+        coverage.append({
+            "d": d,
+            "rows": len(day),
+            "boards": len({(r["provider"], r["company"]) for r in day}),
+            "baseline_rows": sum(r["added"] is None for r in day),
+            "boards_by_provider": {
+                p: len({r["company"] for r in day if r["provider"] == p})
+                for p in sorted({r["provider"] for r in day})
+            },
+        })
+    return {
+        "schema_version": 1,
+        "source": RAW + "closures-72h.csv",
+        "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
+        "observation_timezone": "UTC",
+        "first_day": days[0] if days else None,
+        "latest_day": days[-1] if days else None,
+        "observed_days": len(days),
+        "row_count": len(rows),
+        "board_count": len(boards),
+        "coverage": coverage,
+        "expected_board_count": None,
+        "missing_means": "unobserved, not zero; expected watchlist coverage is unknown",
+        "freshness": "Compare latest_day with your current UTC date; this file is not a live health check.",
+    }
+
+
 def build(blocklist: Path | None = None) -> None:
     blocked = read_blocklist(blocklist)
     rows = [r for r in load() if key(r) not in blocked]
@@ -711,6 +757,9 @@ def build(blocklist: Path | None = None) -> None:
         "calendar.html": calendar_page(history, set(days)),
         "export.html": export_page(),
         "daily.jsonl": "".join(json.dumps(e, sort_keys=True) + "\n" for e in history),
+        # Describe the downloadable file exactly, even when a blocklist excludes a
+        # board from the rendered site's rankings. No individual company names here.
+        "coverage.json": json.dumps(coverage_manifest(load(), CSV.read_bytes()), indent=2) + "\n",
         "sitemap.xml": sitemap(history[-1]["d"]),
         "robots.txt": f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n",
         "style.css": (SITE / "style.css").read_text(encoding="utf-8"),
