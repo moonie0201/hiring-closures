@@ -1,27 +1,14 @@
 {
   "schema_version": 1,
   "source": "https://raw.githubusercontent.com/moonie0201/hiring-closures/main/data/sample/closures-72h.csv",
-  "source_sha256": "31c2eff0480408f0a5b16893a72f5843c74dff6ced29b54b37abc4af1fa7e613",
+  "source_sha256": "9bfa4e8205d7998b53418e2af2ae0f6be7b94912d3dbb98c0436c57183686acb",
   "observation_timezone": "UTC",
-  "first_day": "2026-10-08",
-  "latest_day": "2026-10-10",
+  "first_day": "2026-10-09",
+  "latest_day": "2026-10-11",
   "observed_days": 3,
-  "row_count": 35244,
-  "board_count": 11800,
+  "row_count": 35409,
+  "board_count": 11975,
   "coverage": [
-    {
-      "d": "2026-10-08",
-      "rows": 11763,
-      "boards": 11763,
-      "baseline_rows": 0,
-      "boards_by_provider": {
-        "ashby": 2886,
-        "greenhouse": 4851,
-        "lever": 1967,
-        "recruitee": 767,
-        "rippling": 1292
-      }
-    },
     {
       "d": "2026-10-09",
       "rows": 11749,
@@ -46,6 +33,19 @@
         "lever": 1960,
         "recruitee": 768,
         "rippling": 1282
+      }
+    },
+    {
+      "d": "2026-10-11",
+      "rows": 11928,
+      "boards": 11928,
+      "baseline_rows": 0,
+      "boards_by_provider": {
+        "ashby": 2924,
+        "greenhouse": 4924,
+        "lever": 1993,
+        "recruitee": 779,
+        "rippling": 1308
       }
     }
   ],
